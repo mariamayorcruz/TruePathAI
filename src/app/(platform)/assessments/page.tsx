@@ -1,14 +1,13 @@
-import { Brain } from "lucide-react";
+import type { Metadata } from "next";
 
-import { PlaceholderPage } from "@/components/layout/placeholder-page";
+import { AssessmentExperience } from "@/features/assessments/assessment-experience";
+
+export const metadata: Metadata = {
+  title: "Assessments",
+  description:
+    "A reflective, non-deterministic TruePath AI assessment foundation for safe student exploration.",
+};
 
 export default function AssessmentsPage() {
-  return (
-    <PlaceholderPage
-      eyebrow="Assessments"
-      title="Explorations, not verdicts."
-      description="Future assessment experiences will be reflection-based and developmentally careful, helping students notice patterns without defining who they are."
-      icon={Brain}
-    />
-  );
+  return <AssessmentExperience />;
 }
