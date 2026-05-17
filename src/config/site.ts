@@ -9,5 +9,6 @@ export const siteConfig = {
     { label: "Parents", href: "#parents" },
     { label: "Schools", href: "#schools" },
     { label: "Ethics", href: "#ethics" },
+    { label: "Pitch", href: "/pitch" },
   ],
 };
