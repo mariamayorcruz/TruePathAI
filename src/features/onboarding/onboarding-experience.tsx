@@ -83,6 +83,13 @@ export function OnboardingExperience() {
             <OnboardingControls
               canGoBack={currentStep > 0}
               canContinue={canContinue}
+              disabledReason={
+                currentStep === 1
+                  ? "Choose an age-aware phase to continue."
+                  : currentStep === 2
+                    ? "Confirm the exploration agreement to continue."
+                    : undefined
+              }
               isFinal={currentStep === lastStepIndex}
               onBack={goBack}
               onNext={goNext}

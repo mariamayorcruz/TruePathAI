@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 type OnboardingControlsProps = {
   canGoBack: boolean;
   canContinue?: boolean;
+  disabledReason?: string;
   isFinal?: boolean;
   onBack: () => void;
   onNext: () => void;
@@ -15,6 +16,7 @@ type OnboardingControlsProps = {
 export function OnboardingControls({
   canGoBack,
   canContinue = true,
+  disabledReason,
   isFinal = false,
   onBack,
   onNext,
@@ -37,29 +39,38 @@ export function OnboardingControls({
         Back
       </Button>
 
-      {isFinal ? (
-        <Link
-          href="/assessments"
-          className={cn(
-            buttonVariants({ size: "lg" }),
-            "h-14 rounded-full bg-slate-950 px-7 text-base text-white shadow-xl shadow-slate-950/20 hover:bg-slate-800",
-          )}
-        >
-          Begin Exploration
-          <ArrowRight className="size-4" />
-        </Link>
-      ) : (
-        <Button
-          type="button"
-          size="lg"
-          className="h-14 rounded-full bg-slate-950 px-7 text-base text-white shadow-xl shadow-slate-950/20 hover:bg-slate-800 disabled:translate-y-0"
-          onClick={onNext}
-          disabled={!canContinue}
-        >
-          Continue
-          <ArrowRight className="size-4" />
-        </Button>
-      )}
+      <div className="flex flex-col items-stretch gap-2 sm:items-end">
+        {isFinal ? (
+          <Link
+            href="/assessments"
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "h-14 rounded-full bg-slate-950 px-7 text-base text-white shadow-xl shadow-slate-950/20 hover:bg-slate-800",
+            )}
+          >
+            Begin Exploration
+            <ArrowRight className="size-4" />
+          </Link>
+        ) : (
+          <>
+            <Button
+              type="button"
+              size="lg"
+              className="h-14 rounded-full bg-slate-950 px-7 text-base text-white shadow-xl shadow-slate-950/20 hover:bg-slate-800 disabled:translate-y-0"
+              onClick={onNext}
+              disabled={!canContinue}
+            >
+              Continue
+              <ArrowRight className="size-4" />
+            </Button>
+            {!canContinue && disabledReason ? (
+              <p className="max-w-xs text-center text-xs leading-5 text-slate-600 sm:text-right">
+                {disabledReason}
+              </p>
+            ) : null}
+          </>
+        )}
+      </div>
     </div>
   );
 }

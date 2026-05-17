@@ -166,6 +166,11 @@ export function AssessmentExperience() {
                   canContinue={Boolean(
                     currentAnswer.trim() && currentAnswer !== skippedAnswerValue,
                   )}
+                  disabledReason={
+                    canSkipCurrentQuestion
+                      ? "Write a reflection or choose Skip for now."
+                      : "Choose an answer to continue."
+                  }
                   canSkip={canSkipCurrentQuestion}
                   isLastQuestion={
                     currentQuestionIndex === selectedMode.questions.length - 1
@@ -293,6 +298,7 @@ function AssessmentModeStep({
       <AssessmentControls
         canGoBack
         canContinue={selectedModeId !== null}
+        disabledReason="Choose an age-aware mode to begin."
         onBack={onBack}
         onNext={onContinue}
       />

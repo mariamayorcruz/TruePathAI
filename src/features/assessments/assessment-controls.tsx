@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 type AssessmentControlsProps = {
   canGoBack: boolean;
   canContinue: boolean;
+  disabledReason?: string;
   isLastQuestion?: boolean;
   canSkip?: boolean;
   onBack: () => void;
@@ -16,6 +17,7 @@ type AssessmentControlsProps = {
 export function AssessmentControls({
   canGoBack,
   canContinue,
+  disabledReason,
   isLastQuestion = false,
   canSkip = false,
   onBack,
@@ -63,6 +65,11 @@ export function AssessmentControls({
           {isLastQuestion ? "Preview reflections" : "Continue"}
           <ArrowRight className="size-4" />
         </Button>
+        {!canContinue && disabledReason ? (
+          <p className="max-w-xs text-center text-xs leading-5 text-slate-600 sm:text-right">
+            {disabledReason}
+          </p>
+        ) : null}
       </div>
     </div>
   );
