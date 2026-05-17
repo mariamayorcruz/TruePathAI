@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 export const demoNotice =
-  "For presentation purposes only. These previews are static demo examples. No real profile has been generated, no AI analysis has occurred, no score has been created, and no student data has been stored.";
+  "Static demo preview. No real profile is generated, no AI analysis occurs, and no student data is stored.";
 
 export const studentDemo = {
   eyebrow: "Student demo preview",

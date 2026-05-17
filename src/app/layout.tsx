@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SkipLink } from "@/components/shared/skip-link";
+import { SiteFooter } from "@/components/layout/site-footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   },
   description:
     "Human-centered AI-powered self-discovery for students exploring strengths, learning style, personality, and future possibilities.",
-  metadataBase: new URL("https://truepath.ai"),
+  metadataBase: new URL("https://truepath-ai-mvp.vercel.app"),
   alternates: {
     canonical: "/",
   },
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     title: "TruePath AI | Ethical youth self-discovery",
     description:
       "A human-centered platform helping students explore strengths, learning style, and future possibilities without labels or pressure.",
-    url: "https://truepath.ai",
+    url: "https://truepath-ai-mvp.vercel.app",
     siteName: "TruePath AI",
     locale: "en_US",
     type: "website",
@@ -73,6 +74,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <SkipLink />
         {children}
+        <SiteFooter />
       </body>
     </html>
   );

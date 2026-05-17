@@ -96,5 +96,5 @@ export const beginExploration = {
   eyebrow: "Ready when you are",
   title: "Begin with openness, not pressure.",
   description:
-    "The next page is still a placeholder. Real assessments will only be added after the safety, language, and consent foundations are ready.",
+    "The next experience is a guided reflection prototype. It explores possibilities without generating scores, labels, or final recommendations.",
 } as const;

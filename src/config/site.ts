@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "TruePath AI",
   description:
     "Ethical AI-powered self-discovery for students exploring strengths, identity, learning style, and future possibilities.",
-  url: "https://truepath.ai",
+  url: "https://truepath-ai-mvp.vercel.app",
   cta: "Begin Exploration",
   navigation: [
     { label: "Students", href: "/#students" },
