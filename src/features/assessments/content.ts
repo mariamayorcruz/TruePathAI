@@ -13,7 +13,12 @@ import {
   Users,
 } from "lucide-react";
 
-export type AssessmentModeId = "discovery" | "potential" | "direction";
+import type {
+  AnswerInterpretationMeta,
+  AssessmentModeId,
+} from "@/features/assessments/types";
+
+export type { AssessmentModeId } from "@/features/assessments/types";
 
 export type AssessmentQuestionType =
   | "scenario-choice"
@@ -33,6 +38,7 @@ export type ChoiceOption = {
   id: string;
   label: string;
   description?: string;
+  interpretation?: AnswerInterpretationMeta;
 };
 
 export type VisualCardOption = ChoiceOption & {
@@ -112,16 +118,32 @@ export const assessmentModes: AssessmentMode[] = [
             id: "ask",
             label: "Ask questions",
             description: "I would want to understand what we could discover.",
+            interpretation: {
+              observationTags: ["inquiry_drive", "verbal_hypothesis_testing"],
+              relatedDimensions: ["Curiosity"],
+              explorationThemes: ["asking-and-wondering"],
+            },
           },
           {
             id: "make",
             label: "Start making",
             description: "I would want to try ideas with my hands.",
+            interpretation: {
+              observationTags: ["embodied_iteration"],
+              relatedDimensions: ["Curiosity", "Learning"],
+              explorationThemes: ["making-and-testing"],
+            },
           },
           {
             id: "organize",
             label: "Sort the pieces",
             description: "I would want to see what we have and make a plan.",
+            interpretation: {
+              observationTags: ["ordering_comfort"],
+              relatedDimensions: ["Curiosity", "Learning"],
+              explorationThemes: ["organizing-and-planning"],
+              spreadSignal: true,
+            },
           },
         ],
       },
@@ -132,10 +154,45 @@ export const assessmentModes: AssessmentMode[] = [
         prompt: "When something is new, what usually helps you learn?",
         helper: "Your learning style can change depending on the moment.",
         options: [
-          { id: "show", label: "Seeing an example" },
-          { id: "try", label: "Trying it myself" },
-          { id: "talk", label: "Talking it through" },
-          { id: "quiet", label: "Thinking quietly first" },
+          {
+            id: "show",
+            label: "Seeing an example",
+            interpretation: {
+              observationTags: ["model_sensitive"],
+              relatedDimensions: ["Learning"],
+              explorationThemes: ["learning-through-examples"],
+            },
+          },
+          {
+            id: "try",
+            label: "Trying it myself",
+            interpretation: {
+              observationTags: ["kinetic_practice"],
+              relatedDimensions: ["Learning"],
+              explorationThemes: ["learning-by-doing"],
+              spreadSignal: true,
+            },
+          },
+          {
+            id: "talk",
+            label: "Talking it through",
+            interpretation: {
+              observationTags: ["dialogic_processing"],
+              relatedDimensions: ["Learning"],
+              explorationThemes: ["talking-it-through"],
+              spreadSignal: true,
+            },
+          },
+          {
+            id: "quiet",
+            label: "Thinking quietly first",
+            interpretation: {
+              observationTags: ["internal_generation"],
+              relatedDimensions: ["Learning"],
+              explorationThemes: ["thinking-quietly-first"],
+              spreadSignal: true,
+            },
+          },
         ],
       },
       {
@@ -158,18 +215,34 @@ export const assessmentModes: AssessmentMode[] = [
             label: "Build",
             description: "Make, draw, test, or create something new.",
             accent: "from-orange-300 to-rose-400",
+            interpretation: {
+              observationTags: ["tactile_generativity"],
+              relatedDimensions: ["Exploration"],
+              explorationThemes: ["building-and-creating"],
+            },
           },
           {
             id: "wonder",
             label: "Wonder",
             description: "Ask questions and find out how things work.",
             accent: "from-sky-300 to-cyan-500",
+            interpretation: {
+              observationTags: ["conceptual_exploration"],
+              relatedDimensions: ["Exploration"],
+              explorationThemes: ["asking-and-wondering"],
+            },
           },
           {
             id: "connect",
             label: "Connect",
             description: "Share ideas and understand people.",
             accent: "from-violet-300 to-indigo-500",
+            interpretation: {
+              observationTags: ["relational_curiosity"],
+              relatedDimensions: ["Exploration"],
+              explorationThemes: ["connecting-with-people"],
+              spreadSignal: true,
+            },
           },
         ],
       },
@@ -205,16 +278,32 @@ export const assessmentModes: AssessmentMode[] = [
             id: "clarify",
             label: "Clarify the goal",
             description: "I might help everyone understand what we are solving.",
+            interpretation: {
+              observationTags: ["problem_framing_clarity"],
+              relatedDimensions: ["Problem-solving"],
+              explorationThemes: ["clarifying-problems-together"],
+            },
           },
           {
             id: "encourage",
             label: "Encourage the team",
             description: "I might help people feel comfortable sharing.",
+            interpretation: {
+              observationTags: ["psychological_belonging_cues"],
+              relatedDimensions: ["Problem-solving"],
+              explorationThemes: ["supporting-the-group"],
+            },
           },
           {
             id: "experiment",
             label: "Try a quick experiment",
             description: "I might test one idea and learn from it.",
+            interpretation: {
+              observationTags: ["hands_on_hypothesis_testing"],
+              relatedDimensions: ["Problem-solving"],
+              explorationThemes: ["experimenting-quickly"],
+              spreadSignal: true,
+            },
           },
         ],
       },
@@ -225,10 +314,44 @@ export const assessmentModes: AssessmentMode[] = [
         prompt: "Which environment often helps you do your best thinking?",
         helper: "Many people need different environments for different tasks.",
         options: [
-          { id: "solo", label: "Quiet individual time" },
-          { id: "pair", label: "A thoughtful partner" },
-          { id: "group", label: "A lively group" },
-          { id: "mixed", label: "A mix of alone and together" },
+          {
+            id: "solo",
+            label: "Quiet individual time",
+            interpretation: {
+              observationTags: ["restorative_solitude_need"],
+              relatedDimensions: ["Social energy"],
+              explorationThemes: ["solo-focus-environment"],
+              spreadSignal: true,
+            },
+          },
+          {
+            id: "pair",
+            label: "A thoughtful partner",
+            interpretation: {
+              observationTags: ["pairwise_depth"],
+              relatedDimensions: ["Social energy"],
+              explorationThemes: ["partner-depth-environment"],
+            },
+          },
+          {
+            id: "group",
+            label: "A lively group",
+            interpretation: {
+              observationTags: ["collective_stimulation_positive"],
+              relatedDimensions: ["Social energy"],
+              explorationThemes: ["group-energy-environment"],
+            },
+          },
+          {
+            id: "mixed",
+            label: "A mix of alone and together",
+            interpretation: {
+              observationTags: ["contextual_modal_switching"],
+              relatedDimensions: ["Social energy"],
+              explorationThemes: ["balanced-solo-and-together-environment"],
+              spreadSignal: true,
+            },
+          },
         ],
       },
       {
@@ -251,18 +374,34 @@ export const assessmentModes: AssessmentMode[] = [
             label: "Ideas",
             description: "Imagining, questioning, brainstorming, or designing.",
             accent: "from-cyan-300 to-blue-500",
+            interpretation: {
+              observationTags: ["ideational_generation"],
+              relatedDimensions: ["Strengths"],
+              explorationThemes: ["ideas-and-imagination"],
+            },
           },
           {
             id: "people",
             label: "People",
             description: "Listening, leading, helping, or communicating.",
             accent: "from-rose-300 to-orange-400",
+            interpretation: {
+              observationTags: ["interpersonal_engagement_drive"],
+              relatedDimensions: ["Strengths"],
+              explorationThemes: ["people-and-communication-strength"],
+            },
           },
           {
             id: "systems",
             label: "Systems",
             description: "Organizing, solving, analyzing, or improving.",
             accent: "from-emerald-300 to-teal-500",
+            interpretation: {
+              observationTags: ["analytical_structuring_pulse"],
+              relatedDimensions: ["Strengths"],
+              explorationThemes: ["systems-and-analysis-strength"],
+              spreadSignal: true,
+            },
           },
         ],
       },
@@ -298,16 +437,34 @@ export const assessmentModes: AssessmentMode[] = [
             id: "research",
             label: "Research real examples",
             description: "I might learn what people actually do in those paths.",
+            interpretation: {
+              observationTags: ["evidence_orientation"],
+              relatedDimensions: ["Pathways"],
+              explorationThemes: ["research-to-learn-paths"],
+              spreadSignal: true,
+            },
           },
           {
             id: "experience",
             label: "Try a small experience",
             description: "I might test a project, class, volunteer role, or shadowing option.",
+            interpretation: {
+              observationTags: ["embodied_path_sampling"],
+              relatedDimensions: ["Pathways"],
+              explorationThemes: ["hands-on-micro-experience"],
+              spreadSignal: true,
+            },
           },
           {
             id: "discuss",
             label: "Talk it through",
             description: "I might ask trusted people what they notice and know.",
+            interpretation: {
+              observationTags: ["mentor_processing_openness"],
+              relatedDimensions: ["Pathways"],
+              explorationThemes: ["dialogue-with-trusted-voices"],
+              spreadSignal: true,
+            },
           },
         ],
       },
@@ -318,10 +475,42 @@ export const assessmentModes: AssessmentMode[] = [
         prompt: "Which kind of skill growth feels most useful to explore next?",
         helper: "This is about next steps, not deciding your whole future.",
         options: [
-          { id: "communication", label: "Communication" },
-          { id: "creative", label: "Creative problem-solving" },
-          { id: "technical", label: "Technical or analytical skills" },
-          { id: "leadership", label: "Leadership and collaboration" },
+          {
+            id: "communication",
+            label: "Communication",
+            interpretation: {
+              observationTags: ["rhetorical_growth_pulse"],
+              relatedDimensions: ["Skills"],
+              explorationThemes: ["growth-in-communication-skills"],
+            },
+          },
+          {
+            id: "creative",
+            label: "Creative problem-solving",
+            interpretation: {
+              observationTags: ["divergent_synthesis_pulse"],
+              relatedDimensions: ["Skills"],
+              explorationThemes: ["growth-in-creative-problem-solving"],
+            },
+          },
+          {
+            id: "technical",
+            label: "Technical or analytical skills",
+            interpretation: {
+              observationTags: ["quant_patterns_curiosity"],
+              relatedDimensions: ["Skills"],
+              explorationThemes: ["growth-in-analytical-technical-skills"],
+            },
+          },
+          {
+            id: "leadership",
+            label: "Leadership and collaboration",
+            interpretation: {
+              observationTags: ["shared_lead_practice_pulse"],
+              relatedDimensions: ["Skills"],
+              explorationThemes: ["growth-in-leadership-and-collaboration"],
+            },
+          },
         ],
       },
       {
@@ -344,18 +533,35 @@ export const assessmentModes: AssessmentMode[] = [
             label: "Guide",
             description: "Help people move toward a shared goal.",
             accent: "from-violet-300 to-indigo-500",
+            interpretation: {
+              observationTags: ["steward_direction_soft"],
+              relatedDimensions: ["Leadership"],
+              explorationThemes: ["contributing-as-a-guide"],
+            },
           },
           {
             id: "craft",
             label: "Craft",
             description: "Build quality work through focus and skill.",
             accent: "from-cyan-300 to-blue-500",
+            interpretation: {
+              observationTags: ["deliberative_mastery_pulse"],
+              relatedDimensions: ["Leadership"],
+              explorationThemes: ["contributing-through-craft"],
+              spreadSignal: true,
+            },
           },
           {
             id: "bridge",
             label: "Bridge",
             description: "Connect people, ideas, and opportunities.",
             accent: "from-emerald-300 to-teal-500",
+            interpretation: {
+              observationTags: ["boundary_crossing_generosity"],
+              relatedDimensions: ["Leadership"],
+              explorationThemes: ["bridging-ideas-and-people"],
+              spreadSignal: true,
+            },
           },
         ],
       },
@@ -369,15 +575,6 @@ export const questionTypeLabels: Record<AssessmentQuestionType, string> = {
   "reflection-prompt": "Reflection prompt",
   "visual-card-choice": "Visual card choice",
 };
-
-export const summaryPreview = {
-  eyebrow: "Reflection Summary Preview",
-  title: "Your reflections are saved here for now.",
-  description:
-    "Your responses are ready for a future guided profile. In the next version, TruePath AI will help turn these reflections into strengths, growth areas, and possible exploration paths.",
-  reminder:
-    "No profile, score, AI analysis, or career recommendation has been created from these answers. The student and school previews are static demo examples only.",
-} as const;
 
 export const assessmentIconMap = {
   Brush,

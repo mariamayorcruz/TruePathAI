@@ -18,6 +18,10 @@ import {
 export const demoNotice =
   "Static demo preview. No real profile is generated, no AI analysis occurs, and no student data is stored.";
 
+/** Spanish parity for demos shown on /es assessments summary. */
+export const demoNoticeEs =
+  "Solo para fines de demostración. Estas vistas son ejemplos estáticos ilustrativos. No se ha generado un perfil real, no existe análisis con IA ni puntaje oficial, ni se ha almacenado información personal estudiantil en el servidor desde esta sesión.";
+
 export const studentDemo = {
   eyebrow: "Student demo preview",
   badge: "Demo Preview — not a final student profile.",

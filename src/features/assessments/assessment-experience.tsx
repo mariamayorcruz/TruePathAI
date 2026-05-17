@@ -12,17 +12,17 @@ import { AssessmentFrame } from "@/features/assessments/assessment-frame";
 import { AssessmentModeCard } from "@/features/assessments/assessment-mode-card";
 import { AssessmentProgress } from "@/features/assessments/assessment-progress";
 import { AssessmentQuestionCard } from "@/features/assessments/assessment-question-card";
-import {
-  assessmentModes,
-  type AssessmentModeId,
-} from "@/features/assessments/content";
+import type { AssessmentMode, AssessmentModeId } from "@/features/assessments/content";
+import { mergeCanonicalAssessmentModesWithDictionary } from "@/features/assessments/assessment-localize";
+import { SKIPPED_ASSESSMENT_ANSWER_SENTINEL } from "@/features/assessments/interpretation";
 import { ReflectionSummaryPreview } from "@/features/assessments/reflection-summary-preview";
-import { type Locale } from "@/i18n/config";
+import type { AssessmentLocale } from "@/features/assessments/types";
+import { interpretationMessages } from "@/features/assessments/types";
+import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
 
 type FlowStep = "intro" | "mode" | "questions" | "summary";
 type AnswerMap = Record<string, string>;
-const skippedAnswerValue = "__SKIPPED_FOR_NOW__";
 
 type AssessmentExperienceProps = {
   dictionary: Dictionary;
@@ -34,6 +34,18 @@ export function AssessmentExperience({
   locale,
 }: AssessmentExperienceProps) {
   const reduceMotion = useReducedMotion();
+  const assessmentLocale = locale as AssessmentLocale;
+
+  const msgs = useMemo(
+    () => interpretationMessages(assessmentLocale),
+    [assessmentLocale],
+  );
+
+  const mergedModes = useMemo(
+    () => mergeCanonicalAssessmentModesWithDictionary(dictionary),
+    [dictionary],
+  );
+
   const [flowStep, setFlowStep] = useState<FlowStep>("intro");
   const [selectedModeId, setSelectedModeId] = useState<AssessmentModeId | null>(
     null,
@@ -42,31 +54,22 @@ export function AssessmentExperience({
   const [answers, setAnswers] = useState<AnswerMap>({});
 
   const selectedMode = useMemo(
-    () => {
-      const index = dictionary.assessments.modes.findIndex(
-        (mode) => mode.id === selectedModeId,
-      );
-
-      return index >= 0
-        ? {
-            ...assessmentModes[index],
-            ...dictionary.assessments.modes[index],
-          }
-        : undefined;
-    },
-    [dictionary.assessments.modes, selectedModeId],
+    () => mergedModes.find((mode) => mode.id === selectedModeId),
+    [mergedModes, selectedModeId],
   );
 
   const currentQuestion = selectedMode?.questions[currentQuestionIndex];
-  const currentAnswer = currentQuestion ? answers[currentQuestion.id] ?? "" : "";
+  const currentAnswer = currentQuestion ? (answers[currentQuestion.id] ?? "") : "";
+
   const displayAnswer =
-    currentAnswer === skippedAnswerValue ? "" : currentAnswer;
+    currentAnswer === SKIPPED_ASSESSMENT_ANSWER_SENTINEL ? "" : currentAnswer;
   const canSkipCurrentQuestion = currentQuestion?.type === "reflection-prompt";
+
   const answeredCount = selectedMode
     ? selectedMode.questions.filter((question) => {
         const answer = answers[question.id];
 
-        return Boolean(answer?.trim() && answer !== skippedAnswerValue);
+        return Boolean(answer?.trim() && answer !== SKIPPED_ASSESSMENT_ANSWER_SENTINEL);
       }).length
     : 0;
 
@@ -95,7 +98,7 @@ export function AssessmentExperience({
       !selectedMode ||
       !currentQuestion ||
       !currentAnswer.trim() ||
-      currentAnswer === skippedAnswerValue
+      currentAnswer === SKIPPED_ASSESSMENT_ANSWER_SENTINEL
     ) {
       return;
     }
@@ -110,14 +113,16 @@ export function AssessmentExperience({
 
     setAnswers((currentAnswers) => ({
       ...currentAnswers,
-      [currentQuestion.id]: skippedAnswerValue,
+      [currentQuestion.id]: SKIPPED_ASSESSMENT_ANSWER_SENTINEL,
     }));
+
     advanceQuestion(selectedMode.questions.length);
   }
 
   function advanceQuestion(totalQuestions: number) {
     if (currentQuestionIndex === totalQuestions - 1) {
       setFlowStep("summary");
+
       return;
     }
 
@@ -127,11 +132,13 @@ export function AssessmentExperience({
   function goBack() {
     if (flowStep === "questions" && currentQuestionIndex > 0) {
       setCurrentQuestionIndex((index) => index - 1);
+
       return;
     }
 
     if (flowStep === "questions") {
       setFlowStep("mode");
+
       return;
     }
 
@@ -153,16 +160,15 @@ export function AssessmentExperience({
             className="mx-auto w-full max-w-6xl"
           >
             {flowStep === "intro" ? (
-              <AssessmentIntro
-                dictionary={dictionary}
-                onContinue={() => setFlowStep("mode")}
-              />
+              <AssessmentIntro dictionary={dictionary} onContinue={() => setFlowStep("mode")} />
             ) : null}
 
             {flowStep === "mode" ? (
               <AssessmentModeStep
-                selectedModeId={selectedModeId}
                 dictionary={dictionary}
+                modes={mergedModes}
+                modesListAriaLabel={msgs.modesListAriaLabel}
+                selectedModeId={selectedModeId}
                 onSelectMode={setSelectedModeId}
                 onBack={goBack}
                 onContinue={startQuestions}
@@ -175,12 +181,14 @@ export function AssessmentExperience({
                   currentQuestionIndex={currentQuestionIndex}
                   totalQuestions={selectedMode.questions.length}
                   labels={dictionary.assessments.progress}
+                  progressStepHint={msgs.progressStepHint}
                 />
                 <div className="mt-6">
                   <AssessmentQuestionCard
                     question={currentQuestion}
                     value={displayAnswer}
                     dictionary={dictionary}
+                    locale={locale}
                     onChange={handleAnswerChange}
                   />
                 </div>
@@ -190,7 +198,7 @@ export function AssessmentExperience({
                 <AssessmentControls
                   canGoBack
                   canContinue={Boolean(
-                    currentAnswer.trim() && currentAnswer !== skippedAnswerValue,
+                    currentAnswer.trim() && currentAnswer !== SKIPPED_ASSESSMENT_ANSWER_SENTINEL,
                   )}
                   disabledReason={
                     canSkipCurrentQuestion
@@ -212,6 +220,7 @@ export function AssessmentExperience({
             {flowStep === "summary" && selectedMode ? (
               <ReflectionSummaryPreview
                 mode={selectedMode}
+                answers={answers}
                 answeredCount={answeredCount}
                 totalQuestions={selectedMode.questions.length}
                 dictionary={dictionary}
@@ -242,9 +251,7 @@ function AssessmentIntro({ dictionary, onContinue }: AssessmentIntroProps) {
         <h1 className="mt-5 text-5xl font-semibold tracking-[-0.045em] text-slate-950 sm:text-6xl">
           {assessmentIntro.title}
         </h1>
-        <p className="mt-6 text-lg leading-8 text-slate-700">
-          {assessmentIntro.description}
-        </p>
+        <p className="mt-6 text-lg leading-8 text-slate-700">{assessmentIntro.description}</p>
         <p className="mt-6 rounded-3xl border border-sky-200 bg-sky-50/80 p-5 text-base font-semibold leading-7 text-slate-800">
           {assessmentIntro.safetyReminder}
         </p>
@@ -284,25 +291,25 @@ function AssessmentIntro({ dictionary, onContinue }: AssessmentIntroProps) {
 }
 
 type AssessmentModeStepProps = {
+  modes: AssessmentMode[];
   selectedModeId: AssessmentModeId | null;
   dictionary: Dictionary;
+  modesListAriaLabel: string;
   onSelectMode: (modeId: AssessmentModeId) => void;
   onBack: () => void;
   onContinue: () => void;
 };
 
 function AssessmentModeStep({
+  modes,
   selectedModeId,
   dictionary,
+  modesListAriaLabel,
   onSelectMode,
   onBack,
   onContinue,
 }: AssessmentModeStepProps) {
   const modeStep = dictionary.assessments.modeStep;
-  const localizedModes = assessmentModes.map((mode, index) => ({
-    ...mode,
-    ...dictionary.assessments.modes[index],
-  }));
 
   return (
     <div>
@@ -313,17 +320,15 @@ function AssessmentModeStep({
         <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
           {modeStep.title}
         </h1>
-        <p className="mt-5 text-lg leading-8 text-slate-700">
-          {modeStep.description}
-        </p>
+        <p className="mt-5 text-lg leading-8 text-slate-700">{modeStep.description}</p>
       </div>
 
       <div
         className="mt-10 grid gap-5 lg:grid-cols-3"
         role="list"
-        aria-label="Age-aware assessment modes"
+        aria-label={modesListAriaLabel}
       >
-        {localizedModes.map((mode) => (
+        {modes.map((mode) => (
           <AssessmentModeCard
             key={mode.id}
             mode={mode}

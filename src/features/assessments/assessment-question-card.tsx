@@ -2,33 +2,23 @@ import { CheckCircle2 } from "lucide-react";
 
 import { CardContent } from "@/components/ui/card";
 import { GradientCard } from "@/components/shared/gradient-card";
-import type { AssessmentQuestionType } from "@/features/assessments/content";
+import type {
+  AssessmentQuestion,
+  AssessmentQuestionType,
+  ChoiceOption,
+  VisualCardOption,
+} from "@/features/assessments/content";
+import type { AssessmentLocale } from "@/features/assessments/types";
+import { interpretationMessages } from "@/features/assessments/types";
+import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import { cn } from "@/lib/utils";
 
-type ChoiceOption = {
-  id: string;
-  label: string;
-  description?: string;
-};
-type VisualCardOption = ChoiceOption & {
-  accent: string;
-};
-type Question = {
-  id: string;
-  type: string;
-  dimension: string;
-  prompt: string;
-  helper: string;
-  scenario?: string;
-  placeholder?: string;
-  options?: readonly (ChoiceOption | VisualCardOption)[];
-};
-
 type AssessmentQuestionCardProps = {
-  question: Question;
+  question: AssessmentQuestion;
   value: string;
   dictionary: Dictionary;
+  locale: Locale;
   onChange: (value: string) => void;
 };
 
@@ -36,9 +26,11 @@ export function AssessmentQuestionCard({
   question,
   value,
   dictionary,
+  locale,
   onChange,
 }: AssessmentQuestionCardProps) {
   const labels = dictionary.assessments;
+  const copy = interpretationMessages(locale as AssessmentLocale);
 
   return (
     <GradientCard className="rounded-[2.5rem] bg-white/85">
@@ -80,22 +72,23 @@ export function AssessmentQuestionCard({
           </>
         ) : null}
 
-        {(question.type === "scenario-choice" ||
-          question.type === "preference-choice") &&
+        {(question.type === "scenario-choice" || question.type === "preference-choice") &&
         question.options ? (
           <ChoiceList
             options={question.options}
             selectedValue={value}
             onSelect={onChange}
+            groupAriaLabel={copy.answerChoicesAriaLabel}
           />
         ) : null}
 
         {question.type === "visual-card-choice" && question.options ? (
           <VisualChoiceGrid
-            options={question.options as readonly VisualCardOption[]}
+            options={question.options}
             selectedValue={value}
             labels={labels.answerLabels}
             onSelect={onChange}
+            groupAriaLabel={copy.visualAnswerChoicesAriaLabel}
           />
         ) : null}
       </CardContent>
@@ -107,11 +100,17 @@ type ChoiceListProps = {
   options: readonly ChoiceOption[];
   selectedValue: string;
   onSelect: (value: string) => void;
+  groupAriaLabel: string;
 };
 
-function ChoiceList({ options, selectedValue, onSelect }: ChoiceListProps) {
+function ChoiceList({
+  options,
+  selectedValue,
+  onSelect,
+  groupAriaLabel,
+}: ChoiceListProps) {
   return (
-    <div className="mt-8 grid gap-3" role="radiogroup" aria-label="Answer choices">
+    <div className="mt-8 grid gap-3" role="radiogroup" aria-label={groupAriaLabel}>
       {options.map((option) => {
         const isSelected = selectedValue === option.id;
 
@@ -164,6 +163,7 @@ type VisualChoiceGridProps = {
     selected: string;
   };
   onSelect: (value: string) => void;
+  groupAriaLabel: string;
 };
 
 function VisualChoiceGrid({
@@ -171,12 +171,13 @@ function VisualChoiceGrid({
   selectedValue,
   labels,
   onSelect,
+  groupAriaLabel,
 }: VisualChoiceGridProps) {
   return (
     <div
       className="mt-8 grid gap-4 sm:grid-cols-3"
       role="radiogroup"
-      aria-label="Visual-style answer choices"
+      aria-label={groupAriaLabel}
     >
       {options.map((option) => {
         const isSelected = selectedValue === option.id;

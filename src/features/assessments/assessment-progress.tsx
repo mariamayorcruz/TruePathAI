@@ -5,23 +5,23 @@ type AssessmentProgressProps = {
     question: string;
     of: string;
   };
+  progressStepHint: string;
 };
 
 export function AssessmentProgress({
   currentQuestionIndex,
   totalQuestions,
   labels,
+  progressStepHint,
 }: AssessmentProgressProps) {
-  const progress = Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100);
+  const current = currentQuestionIndex + 1;
+  const progress = Math.round((current / totalQuestions) * 100);
+  const phrase = `${labels.question} ${current} ${labels.of} ${totalQuestions}`;
 
   return (
-    <div
-      aria-label={`${labels.question} ${currentQuestionIndex + 1} ${labels.of} ${totalQuestions}`}
-    >
+    <div aria-label={`${phrase}. ${progressStepHint}`}>
       <div className="mb-3 flex items-center justify-between text-sm font-medium text-slate-600">
-        <span>
-          {labels.question} {currentQuestionIndex + 1} {labels.of} {totalQuestions}
-        </span>
+        <span>{phrase}</span>
         <span>{progress}%</span>
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-slate-100">
@@ -30,6 +30,7 @@ export function AssessmentProgress({
           style={{ width: `${progress}%` }}
         />
       </div>
+      <p className="mt-2 text-xs leading-5 text-slate-500">{progressStepHint}</p>
     </div>
   );
 }

@@ -4,9 +4,15 @@ import { AssessmentExperience } from "@/features/assessments/assessment-experien
 import { getDictionary } from "@/i18n/get-dictionary";
 
 export const metadata: Metadata = {
-  title: "Assessments",
+  title: "Evaluaciones",
   description:
-    "Una base de reflexión no determinista de TruePath AI para exploración estudiantil segura.",
+    "Fundamento reflexivo y no determinista de TruePath AI para exploración estudiantil segura.",
+  openGraph: {
+    title: "TruePath AI — Evaluaciones",
+    description:
+      "Fundamento reflexivo y no determinista de TruePath AI para exploración estudiantil segura.",
+    url: "/es/assessments",
+  },
 };
 
 export default function SpanishAssessmentsPage() {
