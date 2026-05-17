@@ -1,13 +1,14 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Container } from "@/components/shared/container";
 import { CtaLink } from "@/components/shared/cta-link";
-import { heroReflectionOptions, heroSafetySignals } from "@/components/landing/content";
+import { ExplorationVisual } from "@/components/landing/exploration-visual";
+import { heroSafetySignals } from "@/components/landing/content";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -82,28 +83,7 @@ export function HeroSection() {
           <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-white/35 blur-2xl" />
           <Card className="rounded-[2.5rem] border-white/80 bg-white/75 p-3 shadow-2xl shadow-slate-900/12 backdrop-blur-2xl">
             <CardContent className="p-4 sm:p-6">
-              <div className="rounded-[2rem] bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 p-6 text-white">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-cyan-100">Discovery space</p>
-                  <ShieldCheck className="size-5 text-cyan-200" aria-hidden="true" />
-                </div>
-                <div className="mt-12">
-                  <p className="text-sm text-slate-300">Today&apos;s reflection</p>
-                  <h2 className="mt-3 text-3xl font-semibold tracking-tight">
-                    What gives you energy when you learn something new?
-                  </h2>
-                </div>
-                <div className="mt-8 grid gap-3">
-                  {heroReflectionOptions.map((item) => (
-                    <div
-                      key={item}
-                      className="rounded-2xl border border-white/10 bg-white/10 p-4 text-sm text-slate-100 backdrop-blur"
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <ExplorationVisual />
 
               <div className="mt-5 grid gap-4 sm:grid-cols-3">
                 {heroSafetySignals.map((item) => (
