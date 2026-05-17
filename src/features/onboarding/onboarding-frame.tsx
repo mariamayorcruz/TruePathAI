@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 import { Container } from "@/components/shared/container";
 import { OnboardingProgress } from "@/features/onboarding/onboarding-progress";
@@ -16,7 +17,7 @@ export function OnboardingFrame({ currentStep, children }: OnboardingFrameProps)
     >
       <Container className="flex min-h-[calc(100vh-4rem)] flex-col">
         <header className="flex items-center justify-between py-2">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center gap-2 rounded-full bg-white/75 px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm backdrop-blur transition hover:bg-white focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-sky-500/40"
           >
@@ -24,7 +25,7 @@ export function OnboardingFrame({ currentStep, children }: OnboardingFrameProps)
               TP
             </span>
             TruePath AI
-          </a>
+          </Link>
           <p className="hidden text-sm font-medium text-slate-600 sm:block">
             Exploration begins gently
           </p>
