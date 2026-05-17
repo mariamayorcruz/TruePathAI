@@ -31,7 +31,6 @@ export function HeroSection({ dictionary, locale }: HeroSectionProps) {
       aria-labelledby="landing-hero-title"
     >
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(125,211,252,0.38),transparent_30%),radial-gradient(circle_at_85%_15%,rgba(196,181,253,0.35),transparent_32%),linear-gradient(135deg,#fffdf8_0%,#eef8ff_46%,#faf5ff_100%)]" />
-      <div className="absolute left-1/2 top-28 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-cyan-200/35 blur-3xl" />
 
       <Container className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
         <motion.div
@@ -49,10 +48,10 @@ export function HeroSection({ dictionary, locale }: HeroSectionProps) {
           <motion.h1
             id="landing-hero-title"
             variants={fadeUp}
-            className="mt-8 max-w-5xl text-5xl font-semibold tracking-[-0.045em] text-slate-950 sm:text-7xl lg:text-8xl"
+            className="mt-8 max-w-5xl text-5xl font-semibold tracking-[-0.045em] sm:text-7xl lg:text-8xl"
           >
-            {hero.titleStart}
-            <span className="block text-transparent [background:linear-gradient(110deg,#0f172a,#0369a1,#6d28d9)] bg-clip-text">
+            <span className="block text-slate-950">{hero.titleStart}</span>
+            <span className="mt-3 block text-balance text-4xl font-semibold leading-[1.12] tracking-[-0.04em] text-slate-950 sm:mt-4 sm:text-6xl sm:leading-[1.1] lg:mt-5 lg:text-7xl lg:leading-[1.08]">
               {hero.titleAccent}
             </span>
           </motion.h1>
