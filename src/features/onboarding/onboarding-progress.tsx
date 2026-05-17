@@ -1,17 +1,17 @@
 import { Check } from "lucide-react";
 
-import { onboardingSteps } from "@/features/onboarding/content";
 import { cn } from "@/lib/utils";
 
 type OnboardingProgressProps = {
   currentStep: number;
+  steps: readonly string[];
 };
 
-export function OnboardingProgress({ currentStep }: OnboardingProgressProps) {
+export function OnboardingProgress({ currentStep, steps }: OnboardingProgressProps) {
   return (
     <nav aria-label="Onboarding progress">
       <ol className="grid gap-3 sm:grid-cols-4">
-        {onboardingSteps.map((step, index) => {
+        {steps.map((step, index) => {
           const isComplete = index < currentStep;
           const isCurrent = index === currentStep;
 

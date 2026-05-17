@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { PitchPage } from "@/features/pitch/pitch-page";
+import { getDictionary } from "@/i18n/get-dictionary";
 
 export const metadata: Metadata = {
   title: "Pitch",
@@ -15,5 +16,5 @@ export const metadata: Metadata = {
 };
 
 export default function PitchRoutePage() {
-  return <PitchPage />;
+  return <PitchPage dictionary={getDictionary("en")} locale="en" />;
 }

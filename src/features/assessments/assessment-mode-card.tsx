@@ -1,15 +1,31 @@
-import type { AssessmentMode, AssessmentModeId } from "@/features/assessments/content";
+import type { AssessmentModeId } from "@/features/assessments/content";
+import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type AssessmentModeCardProps = {
-  mode: AssessmentMode;
+  mode: {
+    id: string;
+    ageRange: string;
+    phase: string;
+    title: string;
+    description: string;
+    focusAreas: readonly string[];
+    icon: LucideIcon;
+    tone: string;
+  };
   isSelected: boolean;
+  labels: {
+    choose: string;
+    selected: string;
+    agePrefix: string;
+  };
   onSelect: (modeId: AssessmentModeId) => void;
 };
 
 export function AssessmentModeCard({
   mode,
   isSelected,
+  labels,
   onSelect,
 }: AssessmentModeCardProps) {
   const Icon = mode.icon;
@@ -25,7 +41,7 @@ export function AssessmentModeCard({
           : "border-white/80 hover:border-sky-200",
       )}
       aria-pressed={isSelected}
-      onClick={() => onSelect(mode.id)}
+      onClick={() => onSelect(mode.id as AssessmentModeId)}
     >
       <div
         className={cn(
@@ -37,7 +53,7 @@ export function AssessmentModeCard({
       </div>
 
       <p className="mt-6 text-sm font-semibold uppercase tracking-[0.24em] text-sky-800">
-        Ages {mode.ageRange}
+        {labels.agePrefix} {mode.ageRange}
       </p>
       <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">
         {mode.phase}
@@ -64,7 +80,7 @@ export function AssessmentModeCard({
             : "bg-slate-100 text-slate-700 group-hover:bg-sky-100",
         )}
       >
-        {isSelected ? "Selected" : "Choose this mode"}
+        {isSelected ? labels.selected : labels.choose}
       </span>
     </button>
   );

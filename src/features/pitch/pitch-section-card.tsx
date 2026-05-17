@@ -1,8 +1,15 @@
 import { CardContent } from "@/components/ui/card";
 import { GradientCard } from "@/components/shared/gradient-card";
-import type { pitchSections } from "@/features/pitch/content";
+import type { LucideIcon } from "lucide-react";
 
-type PitchSection = (typeof pitchSections)[number];
+type PitchSection = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  body: string;
+  points: readonly string[];
+  icon: LucideIcon;
+};
 
 type PitchSectionCardProps = {
   section: PitchSection;

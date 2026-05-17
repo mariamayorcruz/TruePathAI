@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { OnboardingExperience } from "@/features/onboarding/onboarding-experience";
+import { getDictionary } from "@/i18n/get-dictionary";
 
 export const metadata: Metadata = {
   title: "Onboarding",
@@ -15,5 +16,5 @@ export const metadata: Metadata = {
 };
 
 export default function OnboardingPage() {
-  return <OnboardingExperience />;
+  return <OnboardingExperience dictionary={getDictionary("en")} locale="en" />;
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { AssessmentExperience } from "@/features/assessments/assessment-experience";
+import { getDictionary } from "@/i18n/get-dictionary";
 
 export const metadata: Metadata = {
   title: "Assessments",
@@ -15,5 +16,5 @@ export const metadata: Metadata = {
 };
 
 export default function AssessmentsPage() {
-  return <AssessmentExperience />;
+  return <AssessmentExperience dictionary={getDictionary("en")} locale="en" />;
 }

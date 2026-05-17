@@ -9,6 +9,12 @@ type AssessmentControlsProps = {
   disabledReason?: string;
   isLastQuestion?: boolean;
   canSkip?: boolean;
+  labels: {
+    back: string;
+    continue: string;
+    preview: string;
+    skip: string;
+  };
   onBack: () => void;
   onNext: () => void;
   onSkip?: () => void;
@@ -20,6 +26,7 @@ export function AssessmentControls({
   disabledReason,
   isLastQuestion = false,
   canSkip = false,
+  labels,
   onBack,
   onNext,
   onSkip,
@@ -39,7 +46,7 @@ export function AssessmentControls({
         tabIndex={canGoBack ? 0 : -1}
       >
         <ArrowLeft className="size-4" />
-        Back
+        {labels.back}
       </Button>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -52,7 +59,7 @@ export function AssessmentControls({
             onClick={onSkip}
           >
             <CornerDownRight className="size-4" />
-            Skip for now
+            {labels.skip}
           </Button>
         ) : null}
         <Button
@@ -62,7 +69,7 @@ export function AssessmentControls({
           onClick={onNext}
           disabled={!canContinue}
         >
-          {isLastQuestion ? "Preview reflections" : "Continue"}
+          {isLastQuestion ? labels.preview : labels.continue}
           <ArrowRight className="size-4" />
         </Button>
         {!canContinue && disabledReason ? (

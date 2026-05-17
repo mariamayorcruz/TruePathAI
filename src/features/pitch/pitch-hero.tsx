@@ -2,9 +2,18 @@ import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/shared/container";
 import { CtaLink } from "@/components/shared/cta-link";
 import { GradientCard } from "@/components/shared/gradient-card";
-import { pitchCtas, pitchHero, pitchStats } from "@/features/pitch/content";
+import { pitchCtas, pitchStats } from "@/features/pitch/content";
+import { toLocalizedPath, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/get-dictionary";
 
-export function PitchHero() {
+type PitchHeroProps = {
+  dictionary: Dictionary;
+  locale: Locale;
+};
+
+export function PitchHero({ dictionary, locale }: PitchHeroProps) {
+  const pitchHero = dictionary.pitch.hero;
+
   return (
     <section
       className="relative overflow-hidden pt-32"
@@ -31,17 +40,18 @@ export function PitchHero() {
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              {pitchCtas.map((cta) => {
+              {pitchCtas.map((cta, index) => {
                 const Icon = cta.icon;
+                const content = dictionary.pitch.ctas[index];
 
                 return (
                   <CtaLink
                     key={cta.href}
-                    href={cta.href}
-                    intent={cta.intent}
+                    href={toLocalizedPath(content.href, locale)}
+                    intent={content.intent as "primary" | "secondary"}
                     className="justify-center"
                   >
-                    {cta.label}
+                    {content.label}
                     <Icon className="size-4" aria-hidden="true" />
                   </CtaLink>
                 );
@@ -50,24 +60,25 @@ export function PitchHero() {
           </div>
 
           <div className="grid gap-4">
-            {pitchStats.map((stat) => {
+            {pitchStats.map((stat, index) => {
               const Icon = stat.icon;
+              const content = dictionary.pitch.stats[index];
 
               return (
-                <GradientCard key={stat.label} className="bg-white/82">
+                <GradientCard key={content.label} className="bg-white/82">
                   <div className="flex items-center gap-5 p-5">
                     <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white">
                       <Icon className="size-6" aria-hidden="true" />
                     </div>
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-800">
-                        {stat.label}
+                        {content.label}
                       </p>
                       <p className="mt-1 text-3xl font-semibold tracking-tight text-slate-950">
-                        {stat.value}
+                        {content.value}
                       </p>
                       <p className="mt-1 text-sm leading-6 text-slate-700">
-                        {stat.helper}
+                        {content.helper}
                       </p>
                     </div>
                   </div>

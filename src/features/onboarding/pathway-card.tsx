@@ -1,18 +1,33 @@
+import type { LucideIcon } from "lucide-react";
+
 import type { OnboardingPathwayId } from "@/features/onboarding/content";
-import { agePathways } from "@/features/onboarding/content";
 import { cn } from "@/lib/utils";
 
-type Pathway = (typeof agePathways)[number];
+type Pathway = {
+  id: string;
+  ageRange: string;
+  phase: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  tone: string;
+};
 
 type PathwayCardProps = {
   pathway: Pathway;
   isSelected: boolean;
+  labels: {
+    choose: string;
+    selected: string;
+    agePrefix: string;
+  };
   onSelect: (pathwayId: OnboardingPathwayId) => void;
 };
 
 export function PathwayCard({
   pathway,
   isSelected,
+  labels,
   onSelect,
 }: PathwayCardProps) {
   const Icon = pathway.icon;
@@ -28,7 +43,7 @@ export function PathwayCard({
           : "border-white/80 hover:border-sky-200",
       )}
       aria-pressed={isSelected}
-      onClick={() => onSelect(pathway.id)}
+      onClick={() => onSelect(pathway.id as OnboardingPathwayId)}
     >
       <div
         className={cn(
@@ -39,7 +54,7 @@ export function PathwayCard({
         <Icon className="size-6" aria-hidden="true" />
       </div>
       <p className="mt-6 text-sm font-semibold uppercase tracking-[0.24em] text-sky-800">
-        Ages {pathway.ageRange}
+        {labels.agePrefix} {pathway.ageRange}
       </p>
       <h3 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">
         {pathway.phase}
@@ -54,7 +69,7 @@ export function PathwayCard({
             : "bg-slate-100 text-slate-700 group-hover:bg-sky-100",
         )}
       >
-        {isSelected ? "Selected" : "Choose this path"}
+        {isSelected ? labels.selected : labels.choose}
       </span>
     </button>
   );

@@ -2,15 +2,20 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Container } from "@/components/shared/container";
+import { LanguageToggle } from "@/components/layout/language-toggle";
+import { toLocalizedPath, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/get-dictionary";
 
 type AssessmentFrameProps = {
   children: ReactNode;
-  contextLabel?: string;
+  dictionary: Dictionary;
+  locale: Locale;
 };
 
 export function AssessmentFrame({
   children,
-  contextLabel = "Reflective assessment foundation",
+  dictionary,
+  locale,
 }: AssessmentFrameProps) {
   return (
     <main
@@ -20,17 +25,20 @@ export function AssessmentFrame({
       <Container className="flex min-h-[calc(100vh-4rem)] flex-col">
         <header className="flex items-center justify-between py-2">
           <Link
-            href="/"
+            href={toLocalizedPath("/", locale)}
             className="inline-flex items-center gap-2 rounded-full bg-white/75 px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm backdrop-blur transition hover:bg-white focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-sky-500/40"
           >
             <span className="flex size-8 items-center justify-center rounded-full bg-slate-950 text-xs text-white">
               TP
             </span>
-            TruePath AI
+            {dictionary.common.brand}
           </Link>
-          <p className="hidden text-sm font-medium text-slate-600 sm:block">
-            {contextLabel}
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="hidden text-sm font-medium text-slate-600 sm:block">
+              {dictionary.common.reflectiveAssessmentFoundation}
+            </p>
+            <LanguageToggle />
+          </div>
         </header>
 
         <div className="flex flex-1 items-center py-10">{children}</div>

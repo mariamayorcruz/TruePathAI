@@ -7,24 +7,30 @@ import { landingAudiences } from "@/components/landing/content";
 import { Container } from "@/components/shared/container";
 import { GradientCard } from "@/components/shared/gradient-card";
 import { Section, SectionHeading } from "@/components/shared/section";
+import type { Dictionary } from "@/i18n/get-dictionary";
 import { cn } from "@/lib/utils";
 
-export function AudienceSection() {
+type AudienceSectionProps = {
+  dictionary: Dictionary;
+};
+
+export function AudienceSection({ dictionary }: AudienceSectionProps) {
   return (
     <Section aria-labelledby="audience-heading">
       <Container>
         <SectionHeading
-          eyebrow="Built for the whole ecosystem"
+          eyebrow={dictionary.landing.audiencesHeading.eyebrow}
           title={
             <span id="audience-heading">
-              Self-discovery should feel supportive, not deterministic.
+              {dictionary.landing.audiencesHeading.title}
             </span>
           }
         />
 
         <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {landingAudiences.map((audience) => {
+          {landingAudiences.map((audience, index) => {
             const Icon = audience.icon;
+            const content = dictionary.landing.audiences[index];
 
             return (
               <GradientCard id={audience.id} key={audience.id}>
@@ -38,10 +44,10 @@ export function AudienceSection() {
                     <Icon className="size-6" aria-hidden="true" />
                   </div>
                   <CardTitle className="text-2xl font-semibold tracking-tight">
-                    {audience.title}
+                    {content.title}
                   </CardTitle>
                   <CardDescription className="text-base leading-7 text-slate-700">
-                    {audience.description}
+                    {content.description}
                   </CardDescription>
                 </CardHeader>
               </GradientCard>

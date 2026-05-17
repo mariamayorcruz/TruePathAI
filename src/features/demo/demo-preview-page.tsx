@@ -6,6 +6,9 @@ import { Container } from "@/components/shared/container";
 import { GradientCard } from "@/components/shared/gradient-card";
 import { DemoNotice } from "@/features/demo/demo-notice";
 import { demoNavigation } from "@/features/demo/content";
+import { LanguageToggle } from "@/components/layout/language-toggle";
+import { toLocalizedPath, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/get-dictionary";
 import { cn } from "@/lib/utils";
 
 type DemoSection = {
@@ -28,6 +31,8 @@ type DemoPreviewPageProps = {
   description: string;
   sections: readonly DemoSection[];
   metrics?: readonly DemoMetric[];
+  dictionary: Dictionary;
+  locale: Locale;
 };
 
 export function DemoPreviewPage({
@@ -37,6 +42,8 @@ export function DemoPreviewPage({
   description,
   sections,
   metrics,
+  dictionary,
+  locale,
 }: DemoPreviewPageProps) {
   return (
     <main
@@ -46,17 +53,20 @@ export function DemoPreviewPage({
       <Container>
         <header className="flex items-center justify-between py-2">
           <Link
-            href="/"
+            href={toLocalizedPath("/", locale)}
             className="inline-flex items-center gap-2 rounded-full bg-white/75 px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm backdrop-blur transition hover:bg-white focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-sky-500/40"
           >
             <span className="flex size-8 items-center justify-center rounded-full bg-slate-950 text-xs text-white">
               TP
             </span>
-            TruePath AI
+            {dictionary.common.brand}
           </Link>
-          <p className="hidden text-sm font-medium text-slate-600 sm:block">
-            Presentation preview
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="hidden text-sm font-medium text-slate-600 sm:block">
+              {dictionary.common.presentationPreview}
+            </p>
+            <LanguageToggle />
+          </div>
         </header>
 
         <section className="py-14" aria-labelledby="demo-preview-title">
@@ -147,13 +157,14 @@ export function DemoPreviewPage({
           className="grid gap-3 pb-12 sm:grid-cols-2 lg:grid-cols-4"
           aria-label="Demo navigation"
         >
-          {demoNavigation.map((item) => {
+          {demoNavigation.map((item, index) => {
             const Icon = item.icon;
+            const content = dictionary.demo.navigation[index];
 
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={toLocalizedPath(content.href, locale)}
                 className={cn(
                   "group rounded-3xl border border-white/80 bg-white/78 p-4 text-sm font-semibold text-slate-800 shadow-lg shadow-slate-900/5 backdrop-blur transition",
                   "hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-sky-500/30 motion-reduce:hover:translate-y-0",
@@ -163,7 +174,7 @@ export function DemoPreviewPage({
                   <span className="flex size-9 items-center justify-center rounded-2xl bg-sky-100 text-sky-800">
                     <Icon className="size-4" aria-hidden="true" />
                   </span>
-                  {item.label}
+                  {content.label}
                 </span>
               </Link>
             );

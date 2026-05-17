@@ -1,19 +1,26 @@
 type AssessmentProgressProps = {
   currentQuestionIndex: number;
   totalQuestions: number;
+  labels: {
+    question: string;
+    of: string;
+  };
 };
 
 export function AssessmentProgress({
   currentQuestionIndex,
   totalQuestions,
+  labels,
 }: AssessmentProgressProps) {
   const progress = Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100);
 
   return (
-    <div aria-label={`Question ${currentQuestionIndex + 1} of ${totalQuestions}`}>
+    <div
+      aria-label={`${labels.question} ${currentQuestionIndex + 1} ${labels.of} ${totalQuestions}`}
+    >
       <div className="mb-3 flex items-center justify-between text-sm font-medium text-slate-600">
         <span>
-          Question {currentQuestionIndex + 1} of {totalQuestions}
+          {labels.question} {currentQuestionIndex + 1} {labels.of} {totalQuestions}
         </span>
         <span>{progress}%</span>
       </div>

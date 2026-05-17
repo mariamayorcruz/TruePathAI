@@ -5,21 +5,30 @@ import { buttonVariants } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { GradientCard } from "@/components/shared/gradient-card";
 import { DemoNotice } from "@/features/demo/demo-notice";
-import type { AssessmentMode } from "@/features/assessments/content";
-import { summaryPreview } from "@/features/assessments/content";
+import { toLocalizedPath, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/get-dictionary";
 import { cn } from "@/lib/utils";
 
 type ReflectionSummaryPreviewProps = {
-  mode: AssessmentMode;
+  mode: {
+    phase: string;
+    ageRange: string;
+  };
   answeredCount: number;
   totalQuestions: number;
+  dictionary: Dictionary;
+  locale: Locale;
 };
 
 export function ReflectionSummaryPreview({
   mode,
   answeredCount,
   totalQuestions,
+  dictionary,
+  locale,
 }: ReflectionSummaryPreviewProps) {
+  const summaryPreview = dictionary.assessments.summary;
+
   return (
     <div className="mx-auto w-full max-w-4xl text-center">
       <GradientCard className="rounded-[2.5rem] bg-white/85">
@@ -40,24 +49,24 @@ export function ReflectionSummaryPreview({
           <div className="mx-auto mt-8 grid max-w-2xl gap-4 sm:grid-cols-2">
             <div className="rounded-3xl border border-slate-200 bg-white/80 p-5 text-left">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-800">
-                Mode
+                {summaryPreview.mode}
               </p>
               <p className="mt-2 text-xl font-semibold text-slate-950">
                 {mode.phase}
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-700">
-                Ages {mode.ageRange}
+                {summaryPreview.agePrefix} {mode.ageRange}
               </p>
             </div>
             <div className="rounded-3xl border border-slate-200 bg-white/80 p-5 text-left">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-800">
-                Reflections
+                {summaryPreview.reflections}
               </p>
               <p className="mt-2 text-xl font-semibold text-slate-950">
-                {answeredCount} of {totalQuestions}
+                {answeredCount} {summaryPreview.of} {totalQuestions}
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-700">
-                Stored only in this page state for now.
+                {summaryPreview.storedOnly}
               </p>
             </div>
           </div>
@@ -70,34 +79,34 @@ export function ReflectionSummaryPreview({
 
           <div className="mt-9 grid gap-3 md:grid-cols-3">
             <Link
-              href="/student-dashboard"
+              href={toLocalizedPath("/student-dashboard", locale)}
               className={cn(
                 buttonVariants({ size: "lg" }),
                 "h-14 rounded-full bg-slate-950 px-5 text-base text-white shadow-xl shadow-slate-950/20 hover:bg-slate-800",
               )}
             >
               <Sparkles className="size-4" />
-              View Student Preview
+              {summaryPreview.viewStudent}
             </Link>
             <Link
-              href="/school-dashboard"
+              href={toLocalizedPath("/school-dashboard", locale)}
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
                 "h-14 rounded-full border-slate-300 bg-white/80 px-5 text-base text-slate-800 hover:bg-white",
               )}
             >
               <BarChart3 className="size-4" />
-              Explore School View
+              {summaryPreview.exploreSchool}
             </Link>
             <Link
-              href="/onboarding"
+              href={toLocalizedPath("/onboarding", locale)}
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
                 "h-14 rounded-full border-slate-300 bg-white/80 px-5 text-base text-slate-800 hover:bg-white",
               )}
             >
               <RotateCcw className="size-4" />
-              Start Again
+              {summaryPreview.startAgain}
             </Link>
           </div>
         </CardContent>

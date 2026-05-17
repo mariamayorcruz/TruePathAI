@@ -1,3 +1,5 @@
+import type { Dictionary } from "@/i18n/get-dictionary";
+
 const nodes = [
   { id: "self", x: 50, y: 52, size: 8, label: "Self-awareness" },
   { id: "curiosity", x: 23, y: 25, size: 5, label: "Curiosity" },
@@ -21,18 +23,24 @@ const connections = [
 
 const nodeMap = Object.fromEntries(nodes.map((node) => [node.id, node]));
 
-export function ExplorationVisual() {
+type ExplorationVisualProps = {
+  dictionary: Dictionary;
+};
+
+export function ExplorationVisual({ dictionary }: ExplorationVisualProps) {
+  const visual = dictionary.landing.hero;
+
   return (
     <div
       className="relative min-h-[420px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 p-6 text-white"
-      aria-label="Abstract map of student potential, growth, and future pathways"
+      aria-label={visual.visualLabel}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(125,211,252,0.24),transparent_34%),radial-gradient(circle_at_22%_18%,rgba(168,85,247,0.18),transparent_26%),radial-gradient(circle_at_82%_76%,rgba(45,212,191,0.16),transparent_26%)]" />
       <div className="absolute left-1/2 top-1/2 size-56 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-200/10 bg-cyan-200/5 blur-sm motion-safe:animate-pulse" />
       <div className="absolute inset-x-8 top-8 flex items-center justify-between">
-        <p className="text-sm font-medium text-cyan-100">Exploration map</p>
+        <p className="text-sm font-medium text-cyan-100">{visual.visualEyebrow}</p>
         <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-cyan-100 backdrop-blur">
-          No fixed path
+          {visual.visualBadge}
         </span>
       </div>
 
@@ -42,10 +50,9 @@ export function ExplorationVisual() {
         role="img"
         aria-labelledby="exploration-visual-title exploration-visual-description"
       >
-        <title id="exploration-visual-title">Exploration network</title>
+        <title id="exploration-visual-title">{visual.visualTitle}</title>
         <desc id="exploration-visual-description">
-          A calm constellation of connected nodes representing self-awareness,
-          curiosity, creativity, growth, confidence, and possible pathways.
+          {visual.visualDescription}
         </desc>
         <defs>
           <linearGradient id="path-gradient" x1="0" x2="1" y1="0" y2="1">
@@ -128,7 +135,7 @@ export function ExplorationVisual() {
       </svg>
 
       <div className="absolute inset-x-6 bottom-6 grid gap-3 sm:grid-cols-3">
-        {["Notice patterns", "Explore possibilities", "Grow with agency"].map(
+        {visual.visualChips.map(
           (label) => (
             <div
               key={label}

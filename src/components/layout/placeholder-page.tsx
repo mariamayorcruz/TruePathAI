@@ -5,12 +5,16 @@ import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { LanguageToggle } from "@/components/layout/language-toggle";
 
 type PlaceholderPageProps = {
   eyebrow: string;
   title: string;
   description: string;
   icon: LucideIcon;
+  note?: string;
+  backLabel?: string;
+  backHref?: string;
 };
 
 export function PlaceholderPage({
@@ -18,6 +22,9 @@ export function PlaceholderPage({
   title,
   description,
   icon: Icon,
+  note = "This route is intentionally a placeholder for the MVP foundation. Future work should add real workflows only after the product, privacy, and ethics contracts are defined.",
+  backLabel = "Back home",
+  backHref = "/",
 }: PlaceholderPageProps) {
   return (
     <main
@@ -27,16 +34,19 @@ export function PlaceholderPage({
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-4xl items-center justify-center">
         <Card className="w-full overflow-hidden border-white/80 bg-white/80 shadow-2xl shadow-slate-900/10 backdrop-blur">
           <CardContent className="p-8 sm:p-12">
-            <Link
-              href="/"
-              className={cn(
-                buttonVariants({ variant: "ghost", size: "sm" }),
-                "mb-10 rounded-full text-slate-600 hover:text-slate-950",
-              )}
-            >
-              <ArrowLeft className="size-4" />
-              Back home
-            </Link>
+            <div className="mb-10 flex items-center justify-between gap-3">
+              <Link
+                href={backHref}
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "sm" }),
+                  "rounded-full text-slate-600 hover:text-slate-950",
+                )}
+              >
+                <ArrowLeft className="size-4" />
+                {backLabel}
+              </Link>
+              <LanguageToggle />
+            </div>
 
             <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
               <div className="flex size-16 shrink-0 items-center justify-center rounded-3xl bg-sky-100 text-sky-700">
@@ -53,9 +63,7 @@ export function PlaceholderPage({
                   {description}
                 </p>
                 <p className="mt-8 rounded-2xl border border-slate-200 bg-white/70 p-5 text-sm leading-7 text-slate-600">
-                  This route is intentionally a placeholder for the MVP foundation. Future
-                  work should add real workflows only after the product, privacy, and ethics
-                  contracts are defined.
+                  {note}
                 </p>
               </div>
             </div>

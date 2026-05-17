@@ -4,13 +4,18 @@ import { ArrowRight, ShieldCheck } from "lucide-react";
 import { CardContent } from "@/components/ui/card";
 import { Container } from "@/components/shared/container";
 import { GradientCard } from "@/components/shared/gradient-card";
+import { LanguageToggle } from "@/components/layout/language-toggle";
 import type { TrustPageContent } from "@/features/trust/content";
+import { toLocalizedPath, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/get-dictionary";
 
 type TrustPageProps = {
   content: TrustPageContent;
+  dictionary: Dictionary;
+  locale: Locale;
 };
 
-export function TrustPage({ content }: TrustPageProps) {
+export function TrustPage({ content, dictionary, locale }: TrustPageProps) {
   return (
     <main
       id="main-content"
@@ -19,17 +24,20 @@ export function TrustPage({ content }: TrustPageProps) {
       <Container>
         <header className="flex items-center justify-between py-2">
           <Link
-            href="/"
+            href={toLocalizedPath("/", locale)}
             className="inline-flex items-center gap-2 rounded-full bg-white/75 px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm backdrop-blur transition hover:bg-white focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-sky-500/40"
           >
             <span className="flex size-8 items-center justify-center rounded-full bg-slate-950 text-xs text-white">
               TP
             </span>
-            TruePath AI
+            {dictionary.common.brand}
           </Link>
-          <p className="hidden text-sm font-medium text-slate-600 sm:block">
-            Public trust
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="hidden text-sm font-medium text-slate-600 sm:block">
+              {dictionary.common.publicTrust}
+            </p>
+            <LanguageToggle />
+          </div>
         </header>
 
         <section className="py-14" aria-labelledby="trust-page-title">
@@ -90,17 +98,16 @@ export function TrustPage({ content }: TrustPageProps) {
         <section className="pb-12" aria-label="Trust page next step">
           <div className="rounded-[2rem] bg-slate-950 p-7 text-white sm:p-9">
             <h2 className="text-2xl font-semibold tracking-tight">
-              Ready to see the demo flow?
+              {dictionary.trust.readyTitle}
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
-              Start with onboarding to see how TruePath AI introduces exploration
-              before any future profile, AI analysis, or production account exists.
+              {dictionary.trust.readyDescription}
             </p>
             <Link
-              href="/onboarding"
+              href={toLocalizedPath("/onboarding", locale)}
               className="mt-6 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-50 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white/40"
             >
-              View Demo Flow
+              {dictionary.common.viewDemoFlow}
               <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
           </div>

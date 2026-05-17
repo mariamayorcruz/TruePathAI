@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import { termsContent } from "@/features/trust/content";
 import { TrustPage } from "@/features/trust/trust-page";
+import { getDictionary } from "@/i18n/get-dictionary";
 
 export const metadata: Metadata = {
   title: "Terms",
@@ -16,5 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
-  return <TrustPage content={termsContent} />;
+  const dictionary = getDictionary("en");
+
+  return <TrustPage content={dictionary.trust.terms} dictionary={dictionary} locale="en" />;
 }

@@ -8,15 +8,22 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Container } from "@/components/shared/container";
 import { CtaLink } from "@/components/shared/cta-link";
 import { ExplorationVisual } from "@/components/landing/exploration-visual";
-import { heroSafetySignals } from "@/components/landing/content";
+import { toLocalizedPath, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/get-dictionary";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 };
 
-export function HeroSection() {
+type HeroSectionProps = {
+  dictionary: Dictionary;
+  locale: Locale;
+};
+
+export function HeroSection({ dictionary, locale }: HeroSectionProps) {
   const reduceMotion = useReducedMotion();
+  const hero = dictionary.landing.hero;
 
   return (
     <section
@@ -35,7 +42,7 @@ export function HeroSection() {
         >
           <motion.div variants={fadeUp}>
             <Badge className="rounded-full border-sky-200 bg-white/80 px-4 py-2 text-sky-800 shadow-sm backdrop-blur">
-              Ethical AI for youth self-discovery
+              {hero.eyebrow}
             </Badge>
           </motion.div>
 
@@ -44,9 +51,9 @@ export function HeroSection() {
             variants={fadeUp}
             className="mt-8 max-w-5xl text-5xl font-semibold tracking-[-0.045em] text-slate-950 sm:text-7xl lg:text-8xl"
           >
-            Every student has potential.
+            {hero.titleStart}
             <span className="block text-transparent [background:linear-gradient(110deg,#0f172a,#0369a1,#6d28d9)] bg-clip-text">
-              Not every student has discovered it yet.
+              {hero.titleAccent}
             </span>
           </motion.h1>
 
@@ -54,21 +61,19 @@ export function HeroSection() {
             variants={fadeUp}
             className="mt-7 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9"
           >
-            TruePath AI helps students explore their strengths, personality,
-            learning style, and future possibilities through ethical AI-powered
-            self-discovery.
+            {hero.description}
           </motion.p>
 
           <motion.div
             variants={fadeUp}
             className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
           >
-            <CtaLink href="/onboarding">
-              Begin Exploration
+            <CtaLink href={toLocalizedPath("/onboarding", locale)}>
+              {dictionary.common.beginExploration}
               <ArrowRight className="size-4" />
             </CtaLink>
             <CtaLink href="#ethics" intent="secondary">
-              See our ethics
+              {hero.ethicsCta}
             </CtaLink>
           </motion.div>
         </motion.div>
@@ -78,15 +83,15 @@ export function HeroSection() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={reduceMotion ? undefined : { duration: 0.7, ease: "easeOut" }}
           className="relative"
-          aria-label="Preview of a student reflection card"
+          aria-label={hero.visualLabel}
         >
           <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-white/35 blur-2xl" />
           <Card className="rounded-[2.5rem] border-white/80 bg-white/75 p-3 shadow-2xl shadow-slate-900/12 backdrop-blur-2xl">
             <CardContent className="p-4 sm:p-6">
-              <ExplorationVisual />
+              <ExplorationVisual dictionary={dictionary} />
 
               <div className="mt-5 grid gap-4 sm:grid-cols-3">
-                {heroSafetySignals.map((item) => (
+                {hero.safetySignals.map((item) => (
                   <div
                     key={item}
                     className="rounded-2xl border border-slate-200/80 bg-white/85 p-4 text-sm font-medium text-slate-800"

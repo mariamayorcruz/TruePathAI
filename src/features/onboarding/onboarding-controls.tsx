@@ -9,6 +9,12 @@ type OnboardingControlsProps = {
   canContinue?: boolean;
   disabledReason?: string;
   isFinal?: boolean;
+  labels: {
+    back: string;
+    continue: string;
+    beginExploration: string;
+  };
+  assessmentsHref: string;
   onBack: () => void;
   onNext: () => void;
 };
@@ -18,6 +24,8 @@ export function OnboardingControls({
   canContinue = true,
   disabledReason,
   isFinal = false,
+  labels,
+  assessmentsHref,
   onBack,
   onNext,
 }: OnboardingControlsProps) {
@@ -36,19 +44,19 @@ export function OnboardingControls({
         tabIndex={canGoBack ? 0 : -1}
       >
         <ArrowLeft className="size-4" />
-        Back
+        {labels.back}
       </Button>
 
       <div className="flex flex-col items-stretch gap-2 sm:items-end">
         {isFinal ? (
           <Link
-            href="/assessments"
+            href={assessmentsHref}
             className={cn(
               buttonVariants({ size: "lg" }),
               "h-14 rounded-full bg-slate-950 px-7 text-base text-white shadow-xl shadow-slate-950/20 hover:bg-slate-800",
             )}
           >
-            Begin Exploration
+            {labels.beginExploration}
             <ArrowRight className="size-4" />
           </Link>
         ) : (
@@ -60,7 +68,7 @@ export function OnboardingControls({
               onClick={onNext}
               disabled={!canContinue}
             >
-              Continue
+              {labels.continue}
               <ArrowRight className="size-4" />
             </Button>
             {!canContinue && disabledReason ? (

@@ -2,25 +2,44 @@ import { CheckCircle2 } from "lucide-react";
 
 import { CardContent } from "@/components/ui/card";
 import { GradientCard } from "@/components/shared/gradient-card";
-import type {
-  AssessmentQuestion,
-  ChoiceOption,
-  VisualCardOption,
-} from "@/features/assessments/content";
-import { questionTypeLabels } from "@/features/assessments/content";
+import type { AssessmentQuestionType } from "@/features/assessments/content";
+import type { Dictionary } from "@/i18n/get-dictionary";
 import { cn } from "@/lib/utils";
 
+type ChoiceOption = {
+  id: string;
+  label: string;
+  description?: string;
+};
+type VisualCardOption = ChoiceOption & {
+  accent: string;
+};
+type Question = {
+  id: string;
+  type: string;
+  dimension: string;
+  prompt: string;
+  helper: string;
+  scenario?: string;
+  placeholder?: string;
+  options?: readonly (ChoiceOption | VisualCardOption)[];
+};
+
 type AssessmentQuestionCardProps = {
-  question: AssessmentQuestion;
+  question: Question;
   value: string;
+  dictionary: Dictionary;
   onChange: (value: string) => void;
 };
 
 export function AssessmentQuestionCard({
   question,
   value,
+  dictionary,
   onChange,
 }: AssessmentQuestionCardProps) {
+  const labels = dictionary.assessments;
+
   return (
     <GradientCard className="rounded-[2.5rem] bg-white/85">
       <CardContent className="p-7 sm:p-10">
@@ -29,7 +48,7 @@ export function AssessmentQuestionCard({
             {question.dimension}
           </p>
           <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-            {questionTypeLabels[question.type]}
+            {labels.questionTypeLabels[question.type as AssessmentQuestionType]}
           </span>
         </div>
 
@@ -47,11 +66,10 @@ export function AssessmentQuestionCard({
         {question.type === "reflection-prompt" ? (
           <>
             <p className="mt-6 rounded-3xl border border-amber-200 bg-amber-50/80 p-4 text-sm leading-7 text-amber-950">
-              This prompt is optional. If it feels too personal or you are not
-              sure what to say, you can skip it for now.
+              {labels.optionalPrompt}
             </p>
             <label className="mt-5 block">
-              <span className="sr-only">Reflection response</span>
+              <span className="sr-only">{labels.reflectionResponseLabel}</span>
               <textarea
                 value={value}
                 onChange={(event) => onChange(event.target.value)}
@@ -62,8 +80,9 @@ export function AssessmentQuestionCard({
           </>
         ) : null}
 
-        {question.type === "scenario-choice" ||
-        question.type === "preference-choice" ? (
+        {(question.type === "scenario-choice" ||
+          question.type === "preference-choice") &&
+        question.options ? (
           <ChoiceList
             options={question.options}
             selectedValue={value}
@@ -71,10 +90,11 @@ export function AssessmentQuestionCard({
           />
         ) : null}
 
-        {question.type === "visual-card-choice" ? (
+        {question.type === "visual-card-choice" && question.options ? (
           <VisualChoiceGrid
-            options={question.options}
+            options={question.options as readonly VisualCardOption[]}
             selectedValue={value}
+            labels={labels.answerLabels}
             onSelect={onChange}
           />
         ) : null}
@@ -84,7 +104,7 @@ export function AssessmentQuestionCard({
 }
 
 type ChoiceListProps = {
-  options: ChoiceOption[];
+  options: readonly ChoiceOption[];
   selectedValue: string;
   onSelect: (value: string) => void;
 };
@@ -137,14 +157,19 @@ function ChoiceList({ options, selectedValue, onSelect }: ChoiceListProps) {
 }
 
 type VisualChoiceGridProps = {
-  options: VisualCardOption[];
+  options: readonly VisualCardOption[];
   selectedValue: string;
+  labels: {
+    choose: string;
+    selected: string;
+  };
   onSelect: (value: string) => void;
 };
 
 function VisualChoiceGrid({
   options,
   selectedValue,
+  labels,
   onSelect,
 }: VisualChoiceGridProps) {
   return (
@@ -184,7 +209,7 @@ function VisualChoiceGrid({
                     : "bg-slate-100 text-slate-700",
                 )}
               >
-                {isSelected ? "Selected" : "Choose"}
+                {isSelected ? labels.selected : labels.choose}
               </span>
             </div>
           </button>

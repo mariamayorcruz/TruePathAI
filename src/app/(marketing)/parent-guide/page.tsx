@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import { parentGuideContent } from "@/features/trust/content";
 import { TrustPage } from "@/features/trust/trust-page";
+import { getDictionary } from "@/i18n/get-dictionary";
 
 export const metadata: Metadata = {
   title: "Parent Guide",
@@ -16,5 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function ParentGuidePage() {
-  return <TrustPage content={parentGuideContent} />;
+  const dictionary = getDictionary("en");
+
+  return <TrustPage content={dictionary.trust.parentGuide} dictionary={dictionary} locale="en" />;
 }

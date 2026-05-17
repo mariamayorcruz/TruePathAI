@@ -1,6 +1,10 @@
-import { Info } from "lucide-react";
+"use client";
 
-import { demoNotice } from "@/features/demo/content";
+import { Info } from "lucide-react";
+import { usePathname } from "next/navigation";
+
+import { getLocaleFromPathname } from "@/i18n/config";
+import { getDictionary } from "@/i18n/get-dictionary";
 import { cn } from "@/lib/utils";
 
 type DemoNoticeProps = {
@@ -8,6 +12,10 @@ type DemoNoticeProps = {
 };
 
 export function DemoNotice({ className }: DemoNoticeProps) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const dictionary = getDictionary(locale);
+
   return (
     <aside
       className={cn(
@@ -19,8 +27,10 @@ export function DemoNotice({ className }: DemoNoticeProps) {
       <div className="flex gap-3">
         <Info className="mt-1 size-4 shrink-0 text-sky-700" aria-hidden="true" />
         <p>
-          <span className="font-semibold text-slate-950">Demo Mode: </span>
-          {demoNotice}
+          <span className="font-semibold text-slate-950">
+            {dictionary.demo.noticeLabel}{" "}
+          </span>
+          {dictionary.demo.notice}
         </p>
       </div>
     </aside>

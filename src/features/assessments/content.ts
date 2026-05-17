@@ -42,12 +42,12 @@ export type VisualCardOption = ChoiceOption & {
 export type ScenarioChoiceQuestion = BaseQuestion & {
   type: "scenario-choice";
   scenario: string;
-  options: ChoiceOption[];
+  options: readonly ChoiceOption[];
 };
 
 export type PreferenceChoiceQuestion = BaseQuestion & {
   type: "preference-choice";
-  options: ChoiceOption[];
+  options: readonly ChoiceOption[];
 };
 
 export type ReflectionPromptQuestion = BaseQuestion & {
@@ -57,7 +57,7 @@ export type ReflectionPromptQuestion = BaseQuestion & {
 
 export type VisualCardChoiceQuestion = BaseQuestion & {
   type: "visual-card-choice";
-  options: VisualCardOption[];
+  options: readonly VisualCardOption[];
 };
 
 export type AssessmentQuestion =
@@ -72,10 +72,10 @@ export type AssessmentMode = {
   phase: string;
   title: string;
   description: string;
-  focusAreas: string[];
+  focusAreas: readonly string[];
   icon: typeof Sparkles;
   tone: string;
-  questions: AssessmentQuestion[];
+  questions: readonly AssessmentQuestion[];
 };
 
 export const assessmentIntro = {

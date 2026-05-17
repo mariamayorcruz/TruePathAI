@@ -1,26 +1,34 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Compass, HeartHandshake, ShieldCheck, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { CardContent } from "@/components/ui/card";
 import { GradientCard } from "@/components/shared/gradient-card";
 import {
   agePathways,
-  beginExploration,
-  onboardingIntro,
-  safetyAgreement,
   type OnboardingPathwayId,
 } from "@/features/onboarding/content";
 import { OnboardingControls } from "@/features/onboarding/onboarding-controls";
 import { OnboardingFrame } from "@/features/onboarding/onboarding-frame";
 import { PathwayCard } from "@/features/onboarding/pathway-card";
+import { toLocalizedPath, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/get-dictionary";
 import { cn } from "@/lib/utils";
 
 const lastStepIndex = 3;
+const truthIcons = [Compass, Sparkles, HeartHandshake] as const;
 
-export function OnboardingExperience() {
+type OnboardingExperienceProps = {
+  dictionary: Dictionary;
+  locale: Locale;
+};
+
+export function OnboardingExperience({
+  dictionary,
+  locale,
+}: OnboardingExperienceProps) {
   const reduceMotion = useReducedMotion();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedPathway, setSelectedPathway] =
@@ -28,8 +36,8 @@ export function OnboardingExperience() {
   const [hasConfirmedSafety, setHasConfirmedSafety] = useState(false);
 
   const selectedPathwayContent = useMemo(
-    () => agePathways.find((pathway) => pathway.id === selectedPathway),
-    [selectedPathway],
+    () => dictionary.onboarding.pathways.find((pathway) => pathway.id === selectedPathway),
+    [dictionary.onboarding.pathways, selectedPathway],
   );
 
   const canContinue =
@@ -52,7 +60,7 @@ export function OnboardingExperience() {
   }
 
   return (
-    <OnboardingFrame currentStep={currentStep}>
+    <OnboardingFrame currentStep={currentStep} dictionary={dictionary} locale={locale}>
       <section className="w-full" aria-live="polite">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
@@ -63,21 +71,23 @@ export function OnboardingExperience() {
             transition={reduceMotion ? undefined : { duration: 0.28 }}
             className="mx-auto w-full max-w-6xl"
           >
-            {currentStep === 0 ? <IntroStep /> : null}
+            {currentStep === 0 ? <IntroStep dictionary={dictionary} /> : null}
             {currentStep === 1 ? (
               <PathwayStep
+                dictionary={dictionary}
                 selectedPathway={selectedPathway}
                 onSelectPathway={setSelectedPathway}
               />
             ) : null}
             {currentStep === 2 ? (
               <SafetyStep
+                dictionary={dictionary}
                 hasConfirmedSafety={hasConfirmedSafety}
                 onConfirmationChange={setHasConfirmedSafety}
               />
             ) : null}
             {currentStep === 3 ? (
-              <BeginStep selectedPathway={selectedPathwayContent} />
+              <BeginStep dictionary={dictionary} selectedPathway={selectedPathwayContent} />
             ) : null}
 
             <OnboardingControls
@@ -85,12 +95,14 @@ export function OnboardingExperience() {
               canContinue={canContinue}
               disabledReason={
                 currentStep === 1
-                  ? "Choose an age-aware phase to continue."
+                  ? dictionary.onboarding.pathwayStep.disabledReason
                   : currentStep === 2
-                    ? "Confirm the exploration agreement to continue."
+                    ? dictionary.onboarding.safety.disabledReason
                     : undefined
               }
               isFinal={currentStep === lastStepIndex}
+              labels={dictionary.onboarding.controls}
+              assessmentsHref={toLocalizedPath("/assessments", locale)}
               onBack={goBack}
               onNext={goNext}
             />
@@ -101,7 +113,9 @@ export function OnboardingExperience() {
   );
 }
 
-function IntroStep() {
+function IntroStep({ dictionary }: { dictionary: Dictionary }) {
+  const onboardingIntro = dictionary.onboarding.intro;
+
   return (
     <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
       <div>
@@ -117,8 +131,8 @@ function IntroStep() {
       </div>
 
       <div className="grid gap-4">
-        {onboardingIntro.truths.map((truth) => {
-          const Icon = truth.icon;
+        {onboardingIntro.truths.map((truth, index) => {
+          const Icon = truthIcons[index];
 
           return (
             <GradientCard key={truth.title}>
@@ -149,21 +163,27 @@ type PathwayStepProps = {
 };
 
 function PathwayStep({
+  dictionary,
   selectedPathway,
   onSelectPathway,
-}: PathwayStepProps) {
+}: PathwayStepProps & { dictionary: Dictionary }) {
+  const pathwayStep = dictionary.onboarding.pathwayStep;
+  const localizedPathways = agePathways.map((pathway, index) => ({
+    ...pathway,
+    ...dictionary.onboarding.pathways[index],
+  }));
+
   return (
     <div>
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-sky-800">
-          Age-aware pathway
+          {pathwayStep.eyebrow}
         </p>
         <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
-          Choose the phase that fits you right now.
+          {pathwayStep.title}
         </h1>
         <p className="mt-5 text-lg leading-8 text-slate-700">
-          This only shapes the tone of your exploration. It does not rank you,
-          label you, or decide what comes next.
+          {pathwayStep.description}
         </p>
       </div>
 
@@ -172,11 +192,12 @@ function PathwayStep({
         role="list"
         aria-label="Age-aware onboarding pathways"
       >
-        {agePathways.map((pathway) => (
+        {localizedPathways.map((pathway) => (
           <PathwayCard
             key={pathway.id}
             pathway={pathway}
             isSelected={selectedPathway === pathway.id}
+            labels={pathwayStep}
             onSelect={onSelectPathway}
           />
         ))}
@@ -191,10 +212,12 @@ type SafetyStepProps = {
 };
 
 function SafetyStep({
+  dictionary,
   hasConfirmedSafety,
   onConfirmationChange,
-}: SafetyStepProps) {
-  const Icon = safetyAgreement.icon;
+}: SafetyStepProps & { dictionary: Dictionary }) {
+  const safetyAgreement = dictionary.onboarding.safety;
+  const Icon = ShieldCheck;
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -253,10 +276,15 @@ function SafetyStep({
 }
 
 type BeginStepProps = {
-  selectedPathway: (typeof agePathways)[number] | undefined;
+  selectedPathway: Dictionary["onboarding"]["pathways"][number] | undefined;
 };
 
-function BeginStep({ selectedPathway }: BeginStepProps) {
+function BeginStep({
+  selectedPathway,
+  dictionary,
+}: BeginStepProps & { dictionary: Dictionary }) {
+  const beginExploration = dictionary.onboarding.begin;
+
   return (
     <div className="mx-auto max-w-4xl text-center">
       <GradientCard className="rounded-[2.5rem] bg-white/85">
@@ -274,7 +302,7 @@ function BeginStep({ selectedPathway }: BeginStepProps) {
           {selectedPathway ? (
             <div className="mx-auto mt-8 max-w-xl rounded-3xl border border-sky-200 bg-sky-50/80 p-5 text-left">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-800">
-                Selected pathway
+                {beginExploration.selectedPathway}
               </p>
               <p className="mt-2 text-xl font-semibold text-slate-950">
                 {selectedPathway.phase}
