@@ -376,7 +376,7 @@ export const summaryPreview = {
   description:
     "Your responses are ready for a future guided profile. In the next version, TruePath AI will help turn these reflections into strengths, growth areas, and possible exploration paths.",
   reminder:
-    "No profile, score, or career recommendation has been created from these answers.",
+    "No profile, score, AI analysis, or career recommendation has been created from these answers. The student and school previews are static demo examples only.",
 } as const;
 
 export const assessmentIconMap = {

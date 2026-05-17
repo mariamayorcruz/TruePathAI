@@ -7,6 +7,12 @@ export const metadata: Metadata = {
   title: "Student Preview",
   description:
     "A demo-only TruePath AI student preview showing non-deterministic reflection sections.",
+  openGraph: {
+    title: "TruePath AI Student Preview",
+    description:
+      "A demo-only TruePath AI student preview showing non-deterministic reflection sections.",
+    url: "/student-dashboard",
+  },
 };
 
 export default function StudentDashboardPage() {

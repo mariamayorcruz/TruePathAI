@@ -5,10 +5,11 @@ export const siteConfig = {
   url: "https://truepath.ai",
   cta: "Begin Exploration",
   navigation: [
-    { label: "Students", href: "#students" },
-    { label: "Parents", href: "#parents" },
-    { label: "Schools", href: "#schools" },
-    { label: "Ethics", href: "#ethics" },
+    { label: "Students", href: "/#students" },
+    { label: "Parents", href: "/#parents" },
+    { label: "Schools", href: "/#schools" },
+    { label: "Ethics", href: "/#ethics" },
+    { label: "Parent Guide", href: "/parent-guide" },
     { label: "Pitch", href: "/pitch" },
   ],
 };

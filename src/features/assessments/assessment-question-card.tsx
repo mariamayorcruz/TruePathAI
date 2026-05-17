@@ -45,15 +45,21 @@ export function AssessmentQuestionCard({
         ) : null}
 
         {question.type === "reflection-prompt" ? (
-          <label className="mt-8 block">
-            <span className="sr-only">Reflection response</span>
-            <textarea
-              value={value}
-              onChange={(event) => onChange(event.target.value)}
-              placeholder={question.placeholder}
-              className="min-h-40 w-full resize-y rounded-3xl border border-slate-200 bg-white/90 p-5 text-base leading-7 text-slate-800 shadow-inner outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-3 focus:ring-sky-500/20"
-            />
-          </label>
+          <>
+            <p className="mt-6 rounded-3xl border border-amber-200 bg-amber-50/80 p-4 text-sm leading-7 text-amber-950">
+              This prompt is optional. If it feels too personal or you are not
+              sure what to say, you can skip it for now.
+            </p>
+            <label className="mt-5 block">
+              <span className="sr-only">Reflection response</span>
+              <textarea
+                value={value}
+                onChange={(event) => onChange(event.target.value)}
+                placeholder={question.placeholder}
+                className="min-h-40 w-full resize-y rounded-3xl border border-slate-200 bg-white/90 p-5 text-base leading-7 text-slate-800 shadow-inner outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-3 focus:ring-sky-500/20"
+              />
+            </label>
+          </>
         ) : null}
 
         {question.type === "scenario-choice" ||

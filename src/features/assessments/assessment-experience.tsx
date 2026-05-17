@@ -21,6 +21,7 @@ import { ReflectionSummaryPreview } from "@/features/assessments/reflection-summ
 
 type FlowStep = "intro" | "mode" | "questions" | "summary";
 type AnswerMap = Record<string, string>;
+const skippedAnswerValue = "__SKIPPED_FOR_NOW__";
 
 export function AssessmentExperience() {
   const reduceMotion = useReducedMotion();
@@ -38,8 +39,15 @@ export function AssessmentExperience() {
 
   const currentQuestion = selectedMode?.questions[currentQuestionIndex];
   const currentAnswer = currentQuestion ? answers[currentQuestion.id] ?? "" : "";
+  const displayAnswer =
+    currentAnswer === skippedAnswerValue ? "" : currentAnswer;
+  const canSkipCurrentQuestion = currentQuestion?.type === "reflection-prompt";
   const answeredCount = selectedMode
-    ? selectedMode.questions.filter((question) => answers[question.id]?.trim()).length
+    ? selectedMode.questions.filter((question) => {
+        const answer = answers[question.id];
+
+        return Boolean(answer?.trim() && answer !== skippedAnswerValue);
+      }).length
     : 0;
 
   function handleAnswerChange(value: string) {
@@ -63,11 +71,32 @@ export function AssessmentExperience() {
   }
 
   function goToNextQuestion() {
-    if (!selectedMode || !currentQuestion || !currentAnswer.trim()) {
+    if (
+      !selectedMode ||
+      !currentQuestion ||
+      !currentAnswer.trim() ||
+      currentAnswer === skippedAnswerValue
+    ) {
       return;
     }
 
-    if (currentQuestionIndex === selectedMode.questions.length - 1) {
+    advanceQuestion(selectedMode.questions.length);
+  }
+
+  function skipCurrentQuestion() {
+    if (!selectedMode || !currentQuestion || !canSkipCurrentQuestion) {
+      return;
+    }
+
+    setAnswers((currentAnswers) => ({
+      ...currentAnswers,
+      [currentQuestion.id]: skippedAnswerValue,
+    }));
+    advanceQuestion(selectedMode.questions.length);
+  }
+
+  function advanceQuestion(totalQuestions: number) {
+    if (currentQuestionIndex === totalQuestions - 1) {
       setFlowStep("summary");
       return;
     }
@@ -125,7 +154,7 @@ export function AssessmentExperience() {
                 <div className="mt-6">
                   <AssessmentQuestionCard
                     question={currentQuestion}
-                    value={currentAnswer}
+                    value={displayAnswer}
                     onChange={handleAnswerChange}
                   />
                 </div>
@@ -134,12 +163,16 @@ export function AssessmentExperience() {
                 </p>
                 <AssessmentControls
                   canGoBack
-                  canContinue={Boolean(currentAnswer.trim())}
+                  canContinue={Boolean(
+                    currentAnswer.trim() && currentAnswer !== skippedAnswerValue,
+                  )}
+                  canSkip={canSkipCurrentQuestion}
                   isLastQuestion={
                     currentQuestionIndex === selectedMode.questions.length - 1
                   }
                   onBack={goBack}
                   onNext={goToNextQuestion}
+                  onSkip={skipCurrentQuestion}
                 />
               </div>
             ) : null}

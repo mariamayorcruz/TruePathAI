@@ -7,6 +7,12 @@ export const metadata: Metadata = {
   title: "School Preview",
   description:
     "A demo-only TruePath AI school preview using mock aggregate student development signals.",
+  openGraph: {
+    title: "TruePath AI School Preview",
+    description:
+      "A demo-only TruePath AI school preview using mock aggregate student development signals.",
+    url: "/school-dashboard",
+  },
 };
 
 export default function SchoolDashboardPage() {

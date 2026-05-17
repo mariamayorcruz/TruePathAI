@@ -47,6 +47,8 @@ prisma/                PostgreSQL-ready schema
 - [Student Safety](docs/student-safety.md)
 - [Consent Framework](docs/consent-framework.md)
 - [Assessment Language Rules](docs/assessment-language-rules.md)
+- [Pilot Readiness](docs/pilot-readiness.md)
+- [Public Deployment Checklist](docs/public-deployment-checklist.md)
 - [Roadmap](docs/roadmap.md)
 - [Brand](docs/brand.md)
 

@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  applicationName: "TruePath AI",
   title: {
     default: "TruePath AI | Ethical youth self-discovery",
     template: "%s | TruePath AI",
@@ -21,6 +22,42 @@ export const metadata: Metadata = {
   description:
     "Human-centered AI-powered self-discovery for students exploring strengths, learning style, personality, and future possibilities.",
   metadataBase: new URL("https://truepath.ai"),
+  alternates: {
+    canonical: "/",
+  },
+  keywords: [
+    "student self-discovery",
+    "ethical AI education",
+    "youth development",
+    "career exploration",
+    "student wellbeing",
+    "school pilot",
+  ],
+  creator: "TruePath AI",
+  publisher: "TruePath AI",
+  category: "education",
+  openGraph: {
+    title: "TruePath AI | Ethical youth self-discovery",
+    description:
+      "A human-centered platform helping students explore strengths, learning style, and future possibilities without labels or pressure.",
+    url: "https://truepath.ai",
+    siteName: "TruePath AI",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TruePath AI | Ethical youth self-discovery",
+    description:
+      "A human-centered platform helping students explore strengths, learning style, and future possibilities without labels or pressure.",
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

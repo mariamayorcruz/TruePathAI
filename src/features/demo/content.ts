@@ -16,14 +16,14 @@ import {
 } from "lucide-react";
 
 export const demoNotice =
-  "For presentation purposes only. This demo uses illustrative content and does not represent final student data, scoring, AI output, or a production profile.";
+  "For presentation purposes only. These previews are static demo examples. No real profile has been generated, no AI analysis has occurred, no score has been created, and no student data has been stored.";
 
 export const studentDemo = {
   eyebrow: "Student demo preview",
   badge: "Demo Preview — not a final student profile.",
   title: "A gentle preview of how reflections could become a growth conversation.",
   description:
-    "This page shows how TruePath AI may present exploration themes in a future version. Nothing here defines a student, predicts a career, or creates a final profile.",
+    "This static demo page shows how TruePath AI may present exploration themes in a future version. It is not based on assessment answers yet. Nothing here defines a student, predicts a career, or creates a final profile.",
   sections: [
     {
       title: "Strengths Exploration",
@@ -88,7 +88,7 @@ export const schoolDemo = {
   badge: "Demo Preview — not real student data.",
   title: "A privacy-first view of student development signals for a future pilot.",
   description:
-    "This page uses mock/demo data only. It illustrates how schools might view aggregate exploration themes without exposing private individual reflections.",
+    "This static demo page uses mock/demo data only. It is not connected to real students, assessment answers, AI analysis, or school records. It illustrates how schools might view aggregate exploration themes without exposing private individual reflections.",
   sections: [
     {
       title: "Student Growth Signals",
