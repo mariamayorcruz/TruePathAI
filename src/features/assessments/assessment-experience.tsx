@@ -91,13 +91,6 @@ export function AssessmentExperience() {
     }
   }
 
-  function restart() {
-    setFlowStep("intro");
-    setSelectedModeId(null);
-    setCurrentQuestionIndex(0);
-    setAnswers({});
-  }
-
   return (
     <AssessmentFrame>
       <section className="w-full" aria-live="polite">
@@ -156,7 +149,6 @@ export function AssessmentExperience() {
                 mode={selectedMode}
                 answeredCount={answeredCount}
                 totalQuestions={selectedMode.questions.length}
-                onRestart={restart}
               />
             ) : null}
           </motion.div>

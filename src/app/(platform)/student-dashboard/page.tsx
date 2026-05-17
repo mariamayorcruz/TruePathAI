@@ -1,14 +1,22 @@
-import { Sparkles } from "lucide-react";
+import type { Metadata } from "next";
 
-import { PlaceholderPage } from "@/components/layout/placeholder-page";
+import { DemoPreviewPage } from "@/features/demo/demo-preview-page";
+import { studentDemo } from "@/features/demo/content";
+
+export const metadata: Metadata = {
+  title: "Student Preview",
+  description:
+    "A demo-only TruePath AI student preview showing non-deterministic reflection sections.",
+};
 
 export default function StudentDashboardPage() {
   return (
-    <PlaceholderPage
-      eyebrow="Student dashboard"
-      title="A personal growth space for students."
-      description="The student dashboard will eventually collect reflections, strengths, learning preferences, and next-step invitations without turning them into fixed labels."
-      icon={Sparkles}
+    <DemoPreviewPage
+      eyebrow={studentDemo.eyebrow}
+      badge={studentDemo.badge}
+      title={studentDemo.title}
+      description={studentDemo.description}
+      sections={studentDemo.sections}
     />
   );
 }

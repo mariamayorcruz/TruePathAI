@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { ArrowLeft, RotateCcw, ShieldCheck } from "lucide-react";
+import { BarChart3, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { GradientCard } from "@/components/shared/gradient-card";
+import { DemoNotice } from "@/features/demo/demo-notice";
 import type { AssessmentMode } from "@/features/assessments/content";
 import { summaryPreview } from "@/features/assessments/content";
 import { cn } from "@/lib/utils";
@@ -12,14 +13,12 @@ type ReflectionSummaryPreviewProps = {
   mode: AssessmentMode;
   answeredCount: number;
   totalQuestions: number;
-  onRestart: () => void;
 };
 
 export function ReflectionSummaryPreview({
   mode,
   answeredCount,
   totalQuestions,
-  onRestart,
 }: ReflectionSummaryPreviewProps) {
   return (
     <div className="mx-auto w-full max-w-4xl text-center">
@@ -67,28 +66,39 @@ export function ReflectionSummaryPreview({
             {summaryPreview.reminder}
           </p>
 
-          <div className="mt-9 flex flex-col-reverse gap-3 sm:flex-row sm:justify-center">
+          <DemoNotice className="mx-auto mt-5 max-w-2xl text-left" />
+
+          <div className="mt-9 grid gap-3 md:grid-cols-3">
+            <Link
+              href="/student-dashboard"
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "h-14 rounded-full bg-slate-950 px-5 text-base text-white shadow-xl shadow-slate-950/20 hover:bg-slate-800",
+              )}
+            >
+              <Sparkles className="size-4" />
+              View Student Preview
+            </Link>
+            <Link
+              href="/school-dashboard"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "h-14 rounded-full border-slate-300 bg-white/80 px-5 text-base text-slate-800 hover:bg-white",
+              )}
+            >
+              <BarChart3 className="size-4" />
+              Explore School View
+            </Link>
             <Link
               href="/onboarding"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "h-14 rounded-full border-slate-300 bg-white/80 px-7 text-base text-slate-800 hover:bg-white",
+                "h-14 rounded-full border-slate-300 bg-white/80 px-5 text-base text-slate-800 hover:bg-white",
               )}
-            >
-              <ArrowLeft className="size-4" />
-              Back to onboarding
-            </Link>
-            <button
-              type="button"
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "h-14 rounded-full bg-slate-950 px-7 text-base text-white shadow-xl shadow-slate-950/20 hover:bg-slate-800",
-              )}
-              onClick={onRestart}
             >
               <RotateCcw className="size-4" />
-              Explore again
-            </button>
+              Start Again
+            </Link>
           </div>
         </CardContent>
       </GradientCard>

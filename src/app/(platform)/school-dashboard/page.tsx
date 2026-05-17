@@ -1,14 +1,23 @@
-import { School } from "lucide-react";
+import type { Metadata } from "next";
 
-import { PlaceholderPage } from "@/components/layout/placeholder-page";
+import { DemoPreviewPage } from "@/features/demo/demo-preview-page";
+import { schoolDemo } from "@/features/demo/content";
+
+export const metadata: Metadata = {
+  title: "School Preview",
+  description:
+    "A demo-only TruePath AI school preview using mock aggregate student development signals.",
+};
 
 export default function SchoolDashboardPage() {
   return (
-    <PlaceholderPage
-      eyebrow="School dashboard"
-      title="A future-ready view for ethical student support."
-      description="The school dashboard will support educators with aggregate, privacy-conscious program insights rather than student labels or deterministic predictions."
-      icon={School}
+    <DemoPreviewPage
+      eyebrow={schoolDemo.eyebrow}
+      badge={schoolDemo.badge}
+      title={schoolDemo.title}
+      description={schoolDemo.description}
+      sections={schoolDemo.sections}
+      metrics={schoolDemo.mockMetrics}
     />
   );
 }
