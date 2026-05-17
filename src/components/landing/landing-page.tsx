@@ -237,6 +237,35 @@ export function LandingPage() {
         </div>
       </section>
 
+      <section className="px-5 pb-24 sm:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-5 md:grid-cols-3">
+            {platformPillars.map((pillar) => {
+              const Icon = pillar.icon;
+
+              return (
+                <Card
+                  key={pillar.title}
+                  className="rounded-[2rem] border-slate-200/80 bg-gradient-to-br from-white to-sky-50/70 p-3 shadow-xl shadow-slate-900/5"
+                >
+                  <CardHeader className="p-5">
+                    <div className="flex size-12 items-center justify-center rounded-2xl bg-slate-950 text-white">
+                      <Icon className="size-5" />
+                    </div>
+                    <CardTitle className="mt-4 text-xl font-semibold">
+                      {pillar.title}
+                    </CardTitle>
+                    <CardDescription className="text-base leading-7 text-slate-600">
+                      {pillar.description}
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-slate-950 px-5 py-24 text-white sm:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
