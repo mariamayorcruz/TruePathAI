@@ -20,7 +20,10 @@ export function PlaceholderPage({
   icon: Icon,
 }: PlaceholderPageProps) {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(125,211,252,0.25),transparent_35%),linear-gradient(135deg,#fffdf8,#eef8ff_48%,#f7f2ff)] px-5 py-8 text-slate-950">
+    <main
+      id="main-content"
+      className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(125,211,252,0.25),transparent_35%),linear-gradient(135deg,#fffdf8,#eef8ff_48%,#f7f2ff)] px-5 py-8 text-slate-950"
+    >
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-4xl items-center justify-center">
         <Card className="w-full overflow-hidden border-white/80 bg-white/80 shadow-2xl shadow-slate-900/10 backdrop-blur">
           <CardContent className="p-8 sm:p-12">

@@ -43,6 +43,10 @@ prisma/                PostgreSQL-ready schema
 - [Vision](docs/vision.md)
 - [Product](docs/product.md)
 - [Ethics](docs/ethics.md)
+- [AI Guidelines](docs/ai-guidelines.md)
+- [Student Safety](docs/student-safety.md)
+- [Consent Framework](docs/consent-framework.md)
+- [Assessment Language Rules](docs/assessment-language-rules.md)
 - [Roadmap](docs/roadmap.md)
 - [Brand](docs/brand.md)
 
