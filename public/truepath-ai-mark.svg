@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" fill="none" role="img" aria-labelledby="tpmark-title tpmark-desc">
+  <title id="tpmark-title">TruePath AI</title>
+  <desc id="tpmark-desc">Compass-guided TP monogram with warm path accent.</desc>
+  <circle cx="28" cy="27.5" r="22.85" stroke="#050A1F" stroke-width="2"/>
+  <path stroke="#050A1F" stroke-width="1.5" stroke-linecap="round" opacity="0.22" d="M28 10.95v7M28 43.95v7M11.85 26.95h7.25m43.05 0h7.35"/>
+  <path stroke="#F59E0B" stroke-width="4" stroke-linecap="round" d="M28 13.95v8.05"/>
+  <path stroke="#050A1F" stroke-width="1.2" stroke-linecap="round" opacity="0.32" d="M27.975 21.95v13.65M21.85 27.45h13.95"/>
+  <circle cx="38.95" cy="27.25" r="2.92" fill="#2563EB"/>
+  <text
+    x="28"
+    y="34.05"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    fill="#050A1F"
+    font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-size="16.8"
+    font-weight="780"
+    letter-spacing="-0.075em">TP</text>
+  <rect x="11.2" y="43.35" width="33.95" height="3.92" rx="1.96" fill="#F59E0B" opacity="0.95"/>
+</svg>

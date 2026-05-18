@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 54" fill="none" role="img" aria-labelledby="tplogo-title tplogo-desc">
+  <title id="tplogo-title">TruePath AI</title>
+  <desc id="tplogo-desc">Compass-guided TP monogram with TruePath AI wordmark. Transparent background.</desc>
+  <g id="mark">
+    <!-- Journey ring -->
+    <circle cx="28" cy="27" r="22.85" stroke="#050A1F" stroke-width="2"/>
+    <!-- Gentle cardinal echoes -->
+    <path stroke="#050A1F" stroke-width="1.5" stroke-linecap="round" opacity="0.22" d="M28 7.95v7M28 41.95v7M7.65 26.75h7.5m43.95 0h7.5"/>
+    <!-- North guidance — warm amber (no fluorescent tones) -->
+    <path stroke="#F59E0B" stroke-width="4" stroke-linecap="round" d="M28 12v8.25"/>
+    <!-- Human-centered centering cross -->
+    <path stroke="#050A1F" stroke-width="1.2" stroke-linecap="round" opacity="0.32" d="M28 21.85v13.95M21.95 27.35h13.95"/>
+    <!-- Trusted accent waypoint -->
+    <circle cx="38.95" cy="26.95" r="2.92" fill="#2563EB"/>
+    <!-- Monogram -->
+    <text
+      x="28"
+      y="33.6"
+      text-anchor="middle"
+      dominant-baseline="middle"
+      fill="#050A1F"
+      font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+      font-size="16.8"
+      font-weight="780"
+      letter-spacing="-0.075em">TP</text>
+    <!-- Warm path horizon -->
+    <rect x="11.15" y="42.9" width="34.1" height="3.9" rx="1.95" fill="#F59E0B" opacity="0.95"/>
+  </g>
+  <text
+    x="66"
+    y="34.9"
+    fill="#050A1F"
+    font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-size="22.5"
+    font-weight="660"
+    letter-spacing="-0.052em">
+    <tspan fill="#050A1F">TruePath</tspan><tspan fill="#2563EB" font-weight="640"> AI</tspan>
+  </text>
+</svg>

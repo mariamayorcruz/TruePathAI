@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -20,15 +21,29 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-8">
         <Link
           href={toLocalizedPath("/", locale)}
-          className="flex items-center gap-2"
+          className="flex shrink-0 items-center"
           aria-label={dictionary.common.logoAria}
         >
-          <span className="flex size-9 items-center justify-center rounded-2xl bg-slate-950 text-sm font-semibold text-white shadow-lg shadow-slate-950/15">
-            TP
-          </span>
-          <span className="text-sm font-semibold tracking-tight text-slate-950">
-            {dictionary.common.brand}
-          </span>
+          <Image
+            src="/truepath-ai-mark.svg"
+            alt=""
+            width={36}
+            height={36}
+            className="shrink-0 md:hidden"
+            priority
+            sizes="36px"
+            aria-hidden
+          />
+          <Image
+            src="/truepath-ai-logo.svg"
+            alt=""
+            width={211}
+            height={38}
+            className="hidden shrink-0 md:block"
+            priority
+            sizes="211px"
+            aria-hidden
+          />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
