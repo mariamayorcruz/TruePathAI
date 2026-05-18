@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -20,23 +19,26 @@ export function SiteHeader() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/60 bg-white/80 backdrop-blur-2xl">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-8">
         <Link href={toLocalizedPath("/", locale)} className="flex shrink-0 items-center">
-          <Image
+          {/* SVG marks: native <img> avoids `/_next/image` SVG breakage in production. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/truepath-ai-mark.svg"
             alt={dictionary.common.logoAria}
-            width={36}
-            height={36}
-            className="shrink-0 md:hidden"
-            priority
-            sizes="36px"
+            width={56}
+            height={56}
+            decoding="async"
+            fetchPriority="high"
+            className="block h-10 w-10 shrink-0 md:hidden"
           />
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/truepath-ai-logo.svg"
             alt={dictionary.common.logoAria}
-            width={211}
-            height={38}
-            className="hidden shrink-0 md:block"
-            priority
-            sizes="211px"
+            width={300}
+            height={54}
+            decoding="async"
+            fetchPriority="high"
+            className="hidden h-[38px] w-auto max-h-[38px] max-w-[238px] shrink-0 md:block object-contain object-left"
           />
         </Link>
 
