@@ -19,30 +19,24 @@ export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/60 bg-white/80 backdrop-blur-2xl">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-8">
-        <Link
-          href={toLocalizedPath("/", locale)}
-          className="flex shrink-0 items-center"
-          aria-label={dictionary.common.logoAria}
-        >
+        <Link href={toLocalizedPath("/", locale)} className="flex shrink-0 items-center">
           <Image
             src="/truepath-ai-mark.svg"
-            alt=""
+            alt={dictionary.common.logoAria}
             width={36}
             height={36}
             className="shrink-0 md:hidden"
             priority
             sizes="36px"
-            aria-hidden
           />
           <Image
             src="/truepath-ai-logo.svg"
-            alt=""
+            alt={dictionary.common.logoAria}
             width={211}
             height={38}
             className="hidden shrink-0 md:block"
             priority
             sizes="211px"
-            aria-hidden
           />
         </Link>
 
